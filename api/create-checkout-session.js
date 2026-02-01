@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
     
     // Handle lifetime plan (one-time payment)
     if (plan === 'lifetime' && billing === 'one-time') {
-      const priceId = process.env.PRICE_LIFETIME;
+      const priceId = process.env.PRICE_LIFETIME?.trim().replace(/^["']|["']$/g, '');
       
       if (!priceId) {
         return res.status(400).json({ 
@@ -68,7 +68,7 @@ module.exports = async (req, res) => {
     
     // Get price ID from environment for subscription plans
     const priceKey = `PRICE_${plan.toUpperCase()}_${billing.toUpperCase()}`;
-    const priceId = process.env[priceKey];
+    const priceId = process.env[priceKey]?.trim().replace(/^["']|["']$/g, '');
     
     if (!priceId) {
       return res.status(400).json({ 
