@@ -103,11 +103,11 @@ if ($existingRemote) {
     Write-Host "Remote origin already exists: $existingRemote" -ForegroundColor Yellow
     $response = Read-Host "Do you want to update it? (y/n)"
     if ($response -eq "y" -or $response -eq "Y") {
-        git remote set-url origin $repoUrl
+        git remote set-url origin "$repoUrl"
         Write-Host "Remote origin updated" -ForegroundColor Green
     }
 } else {
-    git remote add origin $repoUrl
+    git remote add origin "$repoUrl"
     Write-Host "Remote origin added" -ForegroundColor Green
 }
 
@@ -125,7 +125,7 @@ if ([string]::IsNullOrWhiteSpace($currentBranch)) {
 }
 
 # Push to GitHub
-git push -u origin $currentBranch
+git push -u origin "$currentBranch"
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host ""
