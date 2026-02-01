@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - JARVIS Omega</title>
+    <meta name="description" content="Affordable pricing for JARVIS Omega AI Voice Assistant. Free personal use, Pro features, and commercial licenses.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        .pricing-hero {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 150px 20px 80px;
+            text-align: center;
+        }
+        
+        .pricing-hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ff3333, #ff6666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+        
+        .pricing-hero p {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .pricing-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .toggle-option {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.6);
+            transition: color 0.3s;
+        }
+        
+        .toggle-option.active {
+            color: #ff3333;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 80px;
+            height: 40px;
+            background: rgba(255, 51, 51, 0.2);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .toggle-switch:hover {
+            background: rgba(255, 51, 51, 0.3);
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 32px;
+            height: 32px;
+            background: #ff3333;
+            border-radius: 50%;
+            transition: transform 0.3s;
+            box-shadow: 0 2px 10px rgba(255, 51, 51, 0.5);
+        }
+        
+        .toggle-switch.yearly .toggle-slider {
+            transform: translateX(40px);
+        }
+        
+        .pricing-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        
+        .pricing-card {
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 45, 0.95));
+            border: 2px solid rgba(255, 51, 51, 0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(255, 51, 51, 0.3);
+            border-color: rgba(255, 51, 51, 0.6);
+        }
+        
+        .pricing-card.featured {
+            border-color: #ff3333;
+            background: linear-gradient(135deg, rgba(30, 20, 30, 0.95), rgba(40, 30, 45, 0.95));
+            transform: scale(1.05);
+        }
+        
+        .featured-badge {
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: linear-gradient(135deg, #ff3333, #ff6666);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(255, 51, 51, 0.4);
+        }
+        
+        .plan-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        .plan-description {
+            font-family: 'Rajdhani', sans-serif;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .plan-price {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+        
+        .price-currency {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: #ff3333;
+        }
+        
+        .price-amount {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #ff3333;
+            line-height: 1;
+        }
+        
+        .price-period {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-left: 10px;
+        }
+        
+        .original-price {
+            font-family: 'Rajdhani', sans-serif;
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: line-through;
+            margin-bottom: 20px;
+        }
+        
+        .savings-badge {
+            display: inline-block;
+            background: rgba(0, 255, 100, 0.2);
+            color: #00ff66;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .plan-features {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+        
+        .plan-features li {
+            font-family: 'Rajdhani', sans-serif;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .plan-features li:before {
+            content: "✓";
+            color: #00ff66;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .plan-features li.disabled {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .plan-features li.disabled:before {
+            content: "✗";
+            color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .plan-button {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid #ff3333;
+            background: transparent;
+            color: #ff3333;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .plan-button:hover {
+            background: #ff3333;
+            color: white;
+            box-shadow: 0 5px 20px rgba(255, 51, 51, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .plan-button.primary {
+            background: linear-gradient(135deg, #ff3333, #ff6666);
+            color: white;
+            border: none;
+        }
+        
+        .plan-button.primary:hover {
+            box-shadow: 0 8px 30px rgba(255, 51, 51, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        .comparison-table {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        
+        .comparison-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        
+        .faq-section {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        
+        .faq-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        
+        .faq-item {
+            background: rgba(30, 30, 45, 0.6);
+            border: 1px solid rgba(255, 51, 51, 0.2);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .faq-item:hover {
+            border-color: rgba(255, 51, 51, 0.4);
+            background: rgba(40, 40, 55, 0.7);
+        }
+        
+        .faq-question {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-arrow {
+            color: #ff3333;
+            transition: transform 0.3s;
+        }
+        
+        .faq-item.active .faq-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            font-family: 'Rajdhani', sans-serif;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+            margin-top: 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+        
+        .money-back {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(0, 255, 100, 0.05);
+            border-top: 1px solid rgba(0, 255, 100, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 100, 0.2);
+            margin: 80px 0;
+        }
+        
+        .money-back h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: #00ff66;
+            margin-bottom: 15px;
+        }
+        
+        .money-back p {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="grid-overlay"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">◢◤</span>
+                <span class="logo-text">JARVIS<span class="omega">OMEGA</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#features">Features</a>
+                <a href="pricing.html" class="active">Pricing</a>
+                <a href="download.html" class="btn-download">Download</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Pricing Hero -->
+    <section class="pricing-hero">
+        <div>
+            <h1>Simple, Affordable Pricing</h1>
+            <p>Start free, upgrade when you need more power. No hidden fees.</p>
+            
+            <!-- Billing Toggle -->
+            <div class="pricing-toggle">
+                <span class="toggle-option active" id="monthly-label">Monthly</span>
+                <div class="toggle-switch" id="billing-toggle">
+                    <div class="toggle-slider"></div>
+                </div>
+                <span class="toggle-option" id="yearly-label">Yearly <span style="color: #00ff66;">(Save 20%)</span></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Cards -->
+    <section class="pricing-container">
+        <!-- Free Plan -->
+        <div class="pricing-card">
+            <div class="plan-name">Personal</div>
+            <div class="plan-description">Perfect for personal use and testing</div>
+            <div class="plan-price">
+                <span class="price-currency">$</span>
+                <span class="price-amount">0</span>
+                <span class="price-period">forever</span>
+            </div>
+            <ul class="plan-features">
+                <li>All core voice commands</li>
+                <li>8 stunning themes</li>
+                <li>Custom commands & Q&A</li>
+                <li>Local AI processing</li>
+                <li>Open mic mode</li>
+                <li>Memory system</li>
+                <li class="disabled">Priority support</li>
+                <li class="disabled">Commercial use</li>
+                <li class="disabled">Team features</li>
+            </ul>
+            <a href="download.html" class="plan-button">Download Free</a>
+        </div>
+
+        <!-- Pro Plan -->
+        <div class="pricing-card featured">
+            <div class="featured-badge">Most Popular</div>
+            <div class="plan-name">Pro</div>
+            <div class="plan-description">For power users and professionals</div>
+            <div class="plan-price">
+                <span class="price-currency">$</span>
+                <span class="price-amount monthly-price">9</span>
+                <span class="price-amount yearly-price" style="display: none;">7</span>
+                <span class="price-period monthly-text">/month</span>
+                <span class="price-period yearly-text" style="display: none;">/month</span>
+            </div>
+            <div class="yearly-only" style="display: none;">
+                <div class="original-price">$108/year</div>
+                <div class="savings-badge">Save $24/year</div>
+            </div>
+            <ul class="plan-features">
+                <li>Everything in Personal</li>
+                <li>Priority support (24h response)</li>
+                <li>Advanced AI models</li>
+                <li>Custom voice training</li>
+                <li>Plugin marketplace access</li>
+                <li>Cloud backup & sync</li>
+                <li>Multi-device support</li>
+                <li>Early access to new features</li>
+                <li class="disabled">Commercial license</li>
+            </ul>
+            <button class="plan-button primary" onclick="checkout('pro', document.getElementById('billing-toggle').classList.contains('yearly'), this)">Start Pro Trial</button>
+            <p style="text-align: center; color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-top: 10px;">14-day free trial, cancel anytime</p>
+        </div>
+
+        <!-- Business Plan -->
+        <div class="pricing-card">
+            <div class="plan-name">Business</div>
+            <div class="plan-description">For commercial use and teams</div>
+            <div class="plan-price">
+                <span class="price-currency">$</span>
+                <span class="price-amount monthly-price">29</span>
+                <span class="price-amount yearly-price" style="display: none;">24</span>
+                <span class="price-period monthly-text">/month</span>
+                <span class="price-period yearly-text" style="display: none;">/month</span>
+            </div>
+            <div class="yearly-only" style="display: none;">
+                <div class="original-price">$348/year</div>
+                <div class="savings-badge">Save $60/year</div>
+            </div>
+            <ul class="plan-features">
+                <li>Everything in Pro</li>
+                <li>Commercial license included</li>
+                <li>Up to 5 team members</li>
+                <li>Team management dashboard</li>
+                <li>Custom integrations</li>
+                <li>API access</li>
+                <li>Dedicated support</li>
+                <li>Training & onboarding</li>
+                <li>Invoice billing</li>
+            </ul>
+            <button class="plan-button" onclick="checkout('business', document.getElementById('billing-toggle').classList.contains('yearly'), this)">Start Business Trial</button>
+            <p style="text-align: center; color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-top: 10px;">14-day free trial, cancel anytime</p>
+        </div>
+
+        <!-- Enterprise Plan -->
+        <div class="pricing-card">
+            <div class="plan-name">Enterprise</div>
+            <div class="plan-description">Custom solutions for large teams</div>
+            <div class="plan-price">
+                <span class="price-amount" style="font-size: 2.5rem;">Custom</span>
+            </div>
+            <ul class="plan-features">
+                <li>Everything in Business</li>
+                <li>Unlimited team members</li>
+                <li>On-premise deployment</li>
+                <li>Custom AI model training</li>
+                <li>White-label options</li>
+                <li>SLA guarantees</li>
+                <li>Dedicated account manager</li>
+                <li>Custom development</li>
+                <li>Enterprise security</li>
+            </ul>
+            <a href="mailto:enterprise@jarvisomega.com" class="plan-button">Contact Sales</a>
+        </div>
+    </section>
+
+    <!-- Money-Back Guarantee -->
+    <section class="money-back">
+        <h3>🛡️ 30-Day Money-Back Guarantee</h3>
+        <p>Try JARVIS Omega risk-free. If you're not satisfied within 30 days, we'll refund your purchase—no questions asked.</p>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <h2 class="faq-title">Frequently Asked Questions</h2>
+        
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-question">
+                <span>Can I switch plans at any time?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                Yes! You can upgrade or downgrade your plan at any time. When upgrading, you'll only pay the prorated difference. When downgrading, the change takes effect at the end of your billing cycle.
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-question">
+                <span>What payment methods do you accept?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                We accept all major credit cards (Visa, MasterCard, American Express, Discover), PayPal, and bank transfers for Business and Enterprise plans. All payments are securely processed through Stripe.
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-question">
+                <span>Is the free version really free forever?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                Absolutely! The Personal plan includes all core features and will remain free forever for personal, non-commercial use. No credit card required.
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-question">
+                <span>Do I need internet for JARVIS to work?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                No! JARVIS runs 100% locally on your computer. You only need internet for initial setup and optional cloud features like backup and sync (Pro and above).
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-question">
+                <span>What's the difference between monthly and yearly billing?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                Yearly billing saves you 20% compared to monthly billing. For example, Pro is $9/month ($108/year) or $7/month when billed annually ($84/year), saving you $24.
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-question">
+                <span>Can I use JARVIS for commercial purposes with the free plan?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                No, the Personal plan is for personal use only. For commercial use, you need a Business or Enterprise plan, which includes the necessary commercial license.
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-question">
+                <span>What happens if I cancel my subscription?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                You'll retain access to your Pro/Business features until the end of your billing period. After that, your account will automatically revert to the free Personal plan. All your custom commands and settings will be preserved.
+            </div>
+        </div>
+
+        <div class="faq-item" onclick="this.classList.toggle('active')">
+            <div class="faq-question">
+                <span>Is my data secure and private?</span>
+                <span class="faq-arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                Yes! All voice processing happens locally on your computer. We never send your voice data or commands to external servers (unless you explicitly enable optional cloud features). Your privacy is our priority.
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: rgba(20,20,30,0.95); padding: 60px 20px; text-align: center; border-top: 1px solid rgba(255,51,51,0.2); margin-top: 80px;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="logo" style="margin-bottom: 20px;">
+                <span class="logo-icon">◢◤</span>
+                <span class="logo-text">JARVIS<span class="omega">OMEGA</span></span>
+            </div>
+            <p style="color: rgba(255,255,255,0.6); margin-bottom: 30px; font-family: 'Rajdhani', sans-serif;">
+                Advanced AI Voice Assistant for Windows
+            </p>
+            <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 30px; font-family: 'Rajdhani', sans-serif;">
+                <a href="index.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Home</a>
+                <a href="pricing.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Pricing</a>
+                <a href="download.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Download</a>
+                <a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Documentation</a>
+                <a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none;">Support</a>
+            </div>
+            <p style="color: rgba(255,255,255,0.4); font-size: 0.9rem; font-family: 'Rajdhani', sans-serif;">
+                © 2026 JARVIS Omega. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Stripe with your publishable key
+        // Using LIVE mode key for production
+        const stripe = Stripe('pk_live_51S2hamGnteNdff5BM5Nk33jkCMPHdM7PIH56i7CD0XHOAjLxvKOQHW37FVvRVQbN4qv1cqruG6tN8k8xyJg7OrM900aeo14vFK');
+
+        // Billing toggle
+        const billingToggle = document.getElementById('billing-toggle');
+        const monthlyLabel = document.getElementById('monthly-label');
+        const yearlyLabel = document.getElementById('yearly-label');
+
+        billingToggle.addEventListener('click', function() {
+            this.classList.toggle('yearly');
+            
+            if (this.classList.contains('yearly')) {
+                monthlyLabel.classList.remove('active');
+                yearlyLabel.classList.add('active');
+                showYearlyPrices();
+            } else {
+                monthlyLabel.classList.add('active');
+                yearlyLabel.classList.remove('active');
+                showMonthlyPrices();
+            }
+        });
+
+        function showYearlyPrices() {
+            document.querySelectorAll('.monthly-price').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.yearly-price').forEach(el => el.style.display = 'inline');
+            document.querySelectorAll('.monthly-text').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.yearly-text').forEach(el => el.style.display = 'inline');
+            document.querySelectorAll('.yearly-only').forEach(el => el.style.display = 'block');
+        }
+
+        function showMonthlyPrices() {
+            document.querySelectorAll('.monthly-price').forEach(el => el.style.display = 'inline');
+            document.querySelectorAll('.yearly-price').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.monthly-text').forEach(el => el.style.display = 'inline');
+            document.querySelectorAll('.yearly-text').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.yearly-only').forEach(el => el.style.display = 'none');
+        }
+
+        // Checkout function with better error handling
+        async function checkout(plan, isYearly, buttonElement) {
+            // Store original button text outside try block
+            const originalText = buttonElement ? buttonElement.innerHTML : '';
+            
+            try {
+                // Show loading state
+                if (buttonElement) {
+                    buttonElement.innerHTML = '<span style="opacity: 0.7;">Processing...</span>';
+                    buttonElement.disabled = true;
+                    buttonElement.style.cursor = 'wait';
+                }
+
+                console.log('Starting checkout for:', { plan, isYearly });
+
+                // Determine API URL based on environment
+                const apiUrl = window.location.hostname === 'localhost' 
+                    ? 'http://localhost:3000/api/create-checkout-session'
+                    : '/api/create-checkout-session';
+
+                console.log('API URL:', apiUrl);
+
+                // Call backend to create a checkout session
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        plan: plan,
+                        billing: isYearly ? 'yearly' : 'monthly'
+                    })
+                });
+
+                console.log('Response status:', response.status);
+
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                let data;
+                
+                if (contentType && contentType.includes('application/json')) {
+                    data = await response.json();
+                } else {
+                    // Not JSON - likely a 404 HTML page
+                    const text = await response.text();
+                    console.error('Non-JSON response:', text.substring(0, 200));
+                    throw new Error('API endpoint not found (404). Please check your Vercel deployment configuration.');
+                }
+
+                console.log('Response data:', data);
+
+                if (!response.ok) {
+                    throw new Error(data.message || data.error || `Server error: ${response.status}`);
+                }
+
+                if (!data.sessionId) {
+                    throw new Error('No session ID received from server');
+                }
+
+                // Redirect to Stripe Checkout
+                console.log('Redirecting to Stripe with session:', data.sessionId);
+                const result = await stripe.redirectToCheckout({
+                    sessionId: data.sessionId
+                });
+
+                if (result.error) {
+                    throw new Error(result.error.message);
+                }
+            } catch (error) {
+                console.error('Checkout Error:', error);
+                
+                // Show user-friendly error message
+                let errorMessage = 'Payment system error.\n\n';
+                
+                if (error.message.includes('API endpoint not found') || error.message.includes('404')) {
+                    errorMessage += 'The payment API is not accessible.\n\n';
+                    errorMessage += 'This usually means:\n';
+                    errorMessage += '1. The API files were not deployed to Vercel\n';
+                    errorMessage += '2. The vercel.json routing is not configured\n';
+                    errorMessage += '3. Environment variables are not set in Vercel\n\n';
+                    errorMessage += 'Please check:\n';
+                    errorMessage += '- Vercel Dashboard > Your Project > Functions\n';
+                    errorMessage += '- Vercel Dashboard > Settings > Environment Variables\n\n';
+                    errorMessage += 'For testing: Use the free download instead!';
+                } else if (error.message.includes('Stripe not configured') || error.message.includes('not set')) {
+                    errorMessage += 'The payment system is not yet configured.\n\n';
+                    errorMessage += 'Please set up your Stripe account:\n';
+                    errorMessage += '1. Get your API keys from https://dashboard.stripe.com/apikeys\n';
+                    errorMessage += '2. Create products and prices\n';
+                    errorMessage += '3. Add them to Vercel environment variables\n\n';
+                    errorMessage += 'For testing: Use the free download instead!';
+                } else if (error.message.includes('placeholder')) {
+                    errorMessage += 'Please replace placeholder price IDs with real Stripe price IDs.';
+                } else if (error.message.includes('JSON')) {
+                    errorMessage += 'Server returned invalid response.\n\n';
+                    errorMessage += 'This means the API endpoint exists but returned HTML instead of JSON.\n';
+                    errorMessage += 'Check Vercel logs for deployment errors.';
+                } else {
+                    errorMessage += error.message;
+                }
+                
+                alert(errorMessage);
+                
+                // Reset button
+                if (buttonElement && originalText) {
+                    buttonElement.innerHTML = originalText;
+                    buttonElement.disabled = false;
+                    buttonElement.style.cursor = 'pointer';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

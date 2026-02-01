@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <title>Contact Us - JARVIS Omega</title>
+    <meta name="description" content="Get in touch with JARVIS Omega support team.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+        }
+        
+        .contact-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .contact-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 56px;
+            margin-bottom: 20px;
+        }
+        
+        .contact-header p {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .contact-info-box {
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 45, 0.95));
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .info-icon {
+            font-size: 32px;
+            margin-right: 20px;
+            color: var(--primary-red);
+        }
+        
+        .info-content h3 {
+            color: var(--text-primary);
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .info-content p, .info-content a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            line-height: 1.6;
+        }
+        
+        .info-content a:hover {
+            color: var(--primary-red);
+        }
+        
+        .contact-form-box {
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 45, 0.95));
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(10, 10, 20, 0.8);
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.3);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .submit-btn:hover {
+            background: var(--accent-orange);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 51, 51, 0.4);
+        }
+        
+        .support-hours {
+            background: rgba(255, 136, 0, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 20px;
+            border-radius: 5px;
+            margin: 30px 0;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .social-link {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 45, 0.95));
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-red);
+            font-size: 24px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-link:hover {
+            background: rgba(255, 51, 51, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 51, 51, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <canvas id="particles"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">◆</span>
+                <span class="logo-text">JARVIS<span class="omega">OMEGA</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="docs.html">Documentation</a>
+                <a href="/download" class="btn-download">Download</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="contact-container">
+        <div class="contact-header">
+            <h1>Contact Us</h1>
+            <p>We're here to help! Reach out to our team for support, questions, or feedback.</p>
+        </div>
+
+        <div class="contact-grid">
+            <!-- Contact Information -->
+            <div class="contact-info-box">
+                <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 30px;">Get In Touch</h2>
+                
+                <div class="info-item">
+                    <div class="info-icon">✉️</div>
+                    <div class="info-content">
+                        <h3>Email Support</h3>
+                        <p>
+                            General: <a href="mailto:support@jarvisomega.com">support@jarvisomega.com</a><br>
+                            Technical: <a href="mailto:tech@jarvisomega.com">tech@jarvisomega.com</a><br>
+                            Sales: <a href="mailto:sales@jarvisomega.com">sales@jarvisomega.com</a><br>
+                            Legal: <a href="mailto:legal@jarvisomega.com">legal@jarvisomega.com</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">⏰</div>
+                    <div class="info-content">
+                        <h3>Support Hours</h3>
+                        <div class="support-hours" style="margin: 10px 0;">
+                            <p style="margin: 0;"><strong>Free & Pro Plans:</strong></p>
+                            <p style="margin: 5px 0 15px;">Monday - Friday: 9AM - 6PM EST<br>Response time: 24-48 hours</p>
+                            <p style="margin: 0;"><strong>Business Plan:</strong></p>
+                            <p style="margin: 5px 0 0;">24/7 Priority Support<br>Response time: 4 hours or less</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">📍</div>
+                    <div class="info-content">
+                        <h3>Office Address</h3>
+                        <p>
+                            JARVIS Omega HQ<br>
+                            [Your Business Address]<br>
+                            [City, State, ZIP Code]<br>
+                            United States
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon">🔗</div>
+                    <div class="info-content">
+                        <h3>Quick Links</h3>
+                        <p>
+                            <a href="faq.html">FAQ</a> • <a href="docs.html">Documentation</a><br>
+                            <a href="terms.html">Terms</a> • <a href="privacy.html">Privacy</a> • <a href="license.html">License</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="#" class="social-link" title="Twitter">𝕏</a>
+                    <a href="#" class="social-link" title="Discord">💬</a>
+                    <a href="#" class="social-link" title="GitHub">🔧</a>
+                    <a href="#" class="social-link" title="YouTube">▶</a>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-box">
+                <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 30px;">Send a Message</h2>
+                
+                <form id="contactForm" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="John Doe">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="john@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a topic</option>
+                            <option value="technical">Technical Support</option>
+                            <option value="billing">Billing & Account</option>
+                            <option value="feature">Feature Request</option>
+                            <option value="bug">Bug Report</option>
+                            <option value="sales">Sales Inquiry</option>
+                            <option value="partnership">Partnership Opportunity</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="plan">Your Current Plan</label>
+                        <select id="plan" name="plan">
+                            <option value="none">Not a user yet</option>
+                            <option value="free">Free Plan</option>
+                            <option value="pro">Pro Plan</option>
+                            <option value="business">Business Plan</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" required placeholder="Tell us how we can help you..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+
+                <p style="margin-top: 20px; color: var(--text-dim); font-size: 14px; text-align: center;">
+                    We typically respond within 24 hours during business days.
+                </p>
+            </div>
+        </div>
+
+        <!-- Emergency Support -->
+        <div style="background: rgba(255, 51, 51, 0.1); border: 1px solid var(--primary-red); border-radius: 20px; padding: 40px; text-align: center;">
+            <h2 style="font-family: 'Orbitron', sans-serif; margin-bottom: 15px;">Need Immediate Help?</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 25px;">
+                Check our <a href="faq.html" style="color: var(--primary-red);">FAQ page</a> for instant answers or visit our <a href="docs.html" style="color: var(--primary-red);">Documentation</a> for detailed guides.
+            </p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="faq.html" style="padding: 15px 30px; background: var(--primary-red); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; transition: all 0.3s;">Browse FAQ</a>
+                <a href="docs.html" style="padding: 15px 30px; background: transparent; color: var(--primary-red); text-decoration: none; border: 2px solid var(--primary-red); border-radius: 10px; font-weight: 600; transition: all 0.3s;">View Docs</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+            // In production, send to your backend
+            console.log('Form submitted:', data);
+            
+            // Show success message
+            alert('Thank you for contacting us! We\'ll get back to you within 24 hours.');
+            event.target.reset();
+            
+            // TODO: Integrate with your email service
+            // Example: Send to backend API
+            // fetch('/api/contact', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(data)
+            // });
+        }
+    </script>
+</body>
+</html>

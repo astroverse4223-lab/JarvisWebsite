@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <title>Login - JARVIS Omega</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .auth-box {
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 45, 0.95));
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 20px;
+            padding: 50px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .auth-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .auth-header p {
+            color: var(--text-secondary);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(10, 10, 20, 0.8);
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.3);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            background: var(--accent-orange);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 51, 51, 0.4);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            color: var(--text-dim);
+            position: relative;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: rgba(255, 51, 51, 0.2);
+        }
+        
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+        
+        .auth-links {
+            text-align: center;
+            margin-top: 25px;
+        }
+        
+        .auth-links a {
+            color: var(--primary-red);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .auth-links a:hover {
+            color: var(--accent-orange);
+        }
+        
+        .error-message {
+            background: rgba(255, 51, 51, 0.1);
+            border: 1px solid var(--primary-red);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: var(--primary-red);
+            display: none;
+        }
+        
+        .success-message {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #00ff00;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <canvas id="particles"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                    <span class="logo-icon">◆</span>
+                    <span class="logo-text">JARVIS<span class="omega">OMEGA</span></span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="register.html" class="btn-download">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to access your JARVIS Omega account</p>
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="Enter your password">
+                </div>
+
+                <button type="submit" class="submit-btn" id="loginBtn">Sign In</button>
+            </form>
+
+            <div class="auth-links">
+                <p style="color: var(--text-secondary);">
+                    Don't have an account? <a href="register.html">Sign up</a>
+                </p>
+                <p style="margin-top: 10px;">
+                    <a href="forgot-password.html">Forgot password?</a>
+                </p>
+            </div>
+
+            <div class="divider">OR</div>
+
+            <a href="index.html" style="display: block; text-align: center; color: var(--text-secondary); text-decoration: none; margin-top: 20px;">
+                ← Back to Home
+            </a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const btn = document.getElementById('loginBtn');
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            
+            // Hide messages
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            // Disable button
+            btn.disabled = true;
+            btn.textContent = 'Signing in...';
+            
+            const formData = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Store token
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('userEmail', data.user.email);
+                    localStorage.setItem('userName', data.user.name);
+                    localStorage.setItem('userPlan', data.user.plan);
+                    if (data.user.trialExpiresAt) {
+                        localStorage.setItem('trialExpiresAt', data.user.trialExpiresAt);
+                    }
+                    
+                    // Show success
+                    successDiv.textContent = 'Login successful! Redirecting...';
+                    successDiv.style.display = 'block';
+                    
+                    // Redirect to home page
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                } else {
+                    // Show error
+                    errorDiv.textContent = data.error || 'Login failed. Please check your credentials.';
+                    errorDiv.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = 'Sign In';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorDiv.textContent = 'Connection error. Please try again.';
+                errorDiv.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Sign In';
+            }
+        }
+
+        // Check if already logged in
+        window.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                // Verify token is still valid
+                fetch('/api/auth/verify', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }).then(res => {
+                    if (res.ok) {
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        localStorage.clear();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

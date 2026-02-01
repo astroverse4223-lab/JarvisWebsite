@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <title>Dashboard - JARVIS Omega</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 20px;
+        }
+        
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 3em;
+            background: linear-gradient(90deg, var(--primary-red), var(--cyber-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .user-info {
+            background: rgba(20, 20, 40, 0.9);
+            border: 2px solid rgba(255, 0, 100, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px rgba(255, 0, 100, 0.2);
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            color: var(--cyber-blue);
+            font-weight: 600;
+        }
+        
+        .info-value {
+            color: #fff;
+        }
+        
+        .plan-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .plan-free {
+            background: linear-gradient(135deg, #666, #999);
+        }
+        
+        .plan-trial {
+            background: linear-gradient(135deg, #666, #999);
+        }
+        
+        .plan-pro {
+            background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+        }
+        
+        .plan-business {
+            background: linear-gradient(135deg, var(--cyber-blue), var(--neon-purple));
+        }
+        
+        .plan-lifetime {
+            background: linear-gradient(135deg, var(--accent-orange), #FFD700);
+        }
+        
+        .devices-section {
+            background: rgba(20, 20, 40, 0.9);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .devices-section h2 {
+            color: var(--cyber-blue);
+            margin-bottom: 20px;
+        }
+        
+        .device-list {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .device-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .device-info h3 {
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        
+        .device-info p {
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        .device-remove {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            color: #ff3333;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .device-remove:hover {
+            background: rgba(255, 0, 0, 0.4);
+            transform: scale(1.05);
+        }
+        
+        .no-devices {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .dashboard-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, var(--primary-red), var(--accent-orange));
+            color: white;
+        }
+        
+        .btn-download:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 0, 100, 0.5);
+        }
+        
+        .btn-upgrade {
+            background: linear-gradient(135deg, var(--cyber-blue), var(--neon-purple));
+            color: white;
+        }
+        
+        .btn-upgrade:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+        
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--cyber-blue);
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <canvas id="particles"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">◢◤</span>
+                <span class="logo-text">JARVIS<span class="omega">OMEGA</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/pricing">Pricing</a>
+                <a href="/download">Download</a>
+                <a href="/dashboard" style="color: var(--primary-red);">Dashboard</a>
+                <div class="user-profile" id="userProfile" style="display: block;">
+                    <div class="user-avatar" id="userAvatar">
+                        <span id="userInitials"></span>
+                    </div>
+                    <div class="user-dropdown">
+                        <div class="user-info">
+                            <span class="user-name" id="userNameDisplay"></span>
+                            <span class="user-email" id="userEmailDisplay"></span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="/dashboard" class="dropdown-item">
+                            <span>📊</span> Dashboard
+                        </a>
+                        <a href="/pricing" class="dropdown-item">
+                            <span>⚡</span> Upgrade Plan
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button onclick="logout()" class="dropdown-item logout-btn">
+                            <span>🚪</span> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="loadingState" class="loading">
+        <p>Loading your dashboard...</p>
+    </div>
+    
+    <div id="dashboardContent" class="dashboard-container" style="display: none;">
+        <div class="dashboard-header">
+            <h1>Welcome Back!</h1>
+            <p>Manage your JARVIS Omega account</p>
+        </div>
+        
+        <div class="user-info">
+            <h2 style="color: var(--primary-red); margin-bottom: 20px;">Account Information</h2>
+            <div class="info-row">
+                <span class="info-label">Name:</span>
+                <span class="info-value" id="userName"></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Email:</span>
+                <span class="info-value" id="userEmail"></span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Plan:</span>
+                <span class="info-value">
+                    <span id="userPlan" class="plan-badge"></span>
+                </span>
+            </div>
+            <div class="info-row" id="trialStatusRow" style="display: none;">
+                <span class="info-label">Trial Status:</span>
+                <span class="info-value">
+                    <span id="trialStatus" style="color: var(--accent-orange);"></span>
+                </span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Devices:</span>
+                <span class="info-value">
+                    <span id="deviceCount"></span> / <span id="maxDevices"></span>
+                </span>
+            </div>
+        </div>
+        
+        <div class="devices-section">
+            <h2>Registered Devices</h2>
+            <div id="deviceList" class="device-list"></div>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="/download" class="dashboard-btn btn-download">Download JARVIS</a>
+            <a href="/pricing" class="dashboard-btn btn-upgrade">Upgrade Plan</a>
+            <button onclick="logout()" class="dashboard-btn btn-logout">Logout</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // Check if user is logged in
+        const token = localStorage.getItem('authToken');
+        
+        if (!token) {
+            window.location.href = '/login';
+        }
+        
+        // Update navbar user profile
+        function updateNavbarProfile() {
+            const userName = localStorage.getItem('userName');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (userName) {
+                // Get initials
+                const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                document.getElementById('userInitials').textContent = initials;
+                document.getElementById('userNameDisplay').textContent = userName;
+                document.getElementById('userEmailDisplay').textContent = userEmail || '';
+            }
+        }
+        
+        // Load user data
+        async function loadDashboard() {
+            try {
+                // For now, use stored data
+                const userName = localStorage.getItem('userName');
+                const userEmail = localStorage.getItem('userEmail');
+                const userPlan = localStorage.getItem('userPlan') || 'free';
+                
+                // Update UI
+                document.getElementById('userName').textContent = userName || 'User';
+                document.getElementById('userEmail').textContent = userEmail || '';
+                
+                const planBadge = document.getElementById('userPlan');
+                planBadge.textContent = userPlan;
+                planBadge.className = `plan-badge plan-${userPlan}`;
+                
+                // Check trial status
+                if (userPlan === 'trial') {
+                    const trialExpiresAt = localStorage.getItem('trialExpiresAt');
+                    if (trialExpiresAt) {
+                        const expiresDate = new Date(trialExpiresAt);
+                        const now = new Date();
+                        const timeLeft = expiresDate - now;
+                        const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+                        
+                        const trialStatusRow = document.getElementById('trialStatusRow');
+                        const trialStatus = document.getElementById('trialStatus');
+                        trialStatusRow.style.display = 'flex';
+                        
+                        if (timeLeft > 0) {
+                            if (daysLeft <= 1) {
+                                trialStatus.innerHTML = `⚠️ <strong>${daysLeft} day${daysLeft !== 1 ? 's' : ''} left</strong> - <a href="/pricing" style="color: var(--primary-red); text-decoration: underline;">Upgrade Now</a>`;
+                            } else {
+                                trialStatus.innerHTML = `${daysLeft} days remaining`;
+                            }
+                        } else {
+                            trialStatus.innerHTML = `❌ <strong>Trial Expired</strong> - <a href="/pricing" style="color: var(--primary-red); text-decoration: underline;">Upgrade to Continue</a>`;
+                        }
+                    }
+                }
+                
+                // Set device limits based on plan
+                let maxDevices = 1;
+                if (userPlan === 'pro') maxDevices = 3;
+                if (userPlan === 'business') maxDevices = 10;
+                if (userPlan === 'lifetime') maxDevices = 3;
+                
+                document.getElementById('maxDevices').textContent = maxDevices;
+                
+                // Load devices (would be from API in production)
+                const devices = JSON.parse(localStorage.getItem('userDevices') || '[]');
+                document.getElementById('deviceCount').textContent = devices.length;
+                
+                const deviceList = document.getElementById('deviceList');
+                if (devices.length === 0) {
+                    deviceList.innerHTML = '<div class="no-devices">No devices registered yet. Download JARVIS to register this device.</div>';
+                } else {
+                    deviceList.innerHTML = devices.map((device, index) => `
+                        <div class="device-item">
+                            <div class="device-info">
+                                <h3>${device.name || `Device ${index + 1}`}</h3>
+                                <p>Registered: ${new Date(device.registeredAt).toLocaleDateString()}</p>
+                            </div>
+                            <button class="device-remove" onclick="removeDevice('${device.fingerprint}')">Remove</button>
+                        </div>
+                    `).join('');
+                }
+                
+                // Hide loading, show content
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('dashboardContent').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                alert('Error loading dashboard. Please try again.');
+            }
+        }
+        
+        function removeDevice(fingerprint) {
+            if (confirm('Are you sure you want to remove this device? You will need to re-download JARVIS to use it on this device again.')) {
+                let devices = JSON.parse(localStorage.getItem('userDevices') || '[]');
+                devices = devices.filter(d => d.fingerprint !== fingerprint);
+                localStorage.setItem('userDevices', JSON.stringify(devices));
+                loadDashboard();
+            }
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userPlan');
+                localStorage.removeItem('userDevices');
+                window.location.href = '/';
+            }
+        }
+        
+        // Load dashboard on page load
+        updateNavbarProfile();
+        loadDashboard();
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "jarvis-omega-website",
+  "version": "1.0.0",
+  "description": "JARVIS Omega AI Voice Assistant Website",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "node server.js",
+    "test": "node api/test-stripe-config.js",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "stripe": "^14.0.0",
+    "dotenv": "^16.0.3",
+    "mongodb": "^6.0.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.7"
+  },
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  }
+}

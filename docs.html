@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <title>Documentation - JARVIS Omega</title>
+    <meta name="description" content="Complete documentation and user guide for JARVIS Omega voice assistant.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .docs-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            max-width: 1400px;
+            margin: 100px auto 0;
+            gap: 40px;
+            padding: 20px 40px 80px;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 45, 0.95));
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        
+        .sidebar h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary-red);
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-link {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .sidebar-link:hover, .sidebar-link.active {
+            color: var(--text-primary);
+            background: rgba(255, 51, 51, 0.1);
+            border-left: 3px solid var(--primary-red);
+            padding-left: 12px;
+        }
+        
+        .docs-content {
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 45, 0.95));
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 20px;
+            padding: 50px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .docs-content h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 42px;
+            margin-bottom: 30px;
+        }
+        
+        .docs-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            color: var(--primary-red);
+        }
+        
+        .docs-content h3 {
+            font-size: 24px;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            color: var(--accent-orange);
+        }
+        
+        .docs-content p {
+            margin-bottom: 20px;
+        }
+        
+        .docs-content ul, .docs-content ol {
+            margin: 20px 0 20px 30px;
+        }
+        
+        .docs-content li {
+            margin-bottom: 10px;
+        }
+        
+        .docs-content code {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 3px 8px;
+            border-radius: 4px;
+            color: var(--cyber-blue);
+            font-family: 'Courier New', monospace;
+        }
+        
+        .docs-content pre {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border-left: 3px solid var(--primary-red);
+        }
+        
+        .docs-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .command-box {
+            background: rgba(255, 51, 51, 0.05);
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .command-title {
+            color: var(--primary-red);
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .example-box {
+            background: rgba(0, 243, 255, 0.05);
+            border-left: 3px solid var(--cyber-blue);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning-box {
+            background: rgba(255, 136, 0, 0.1);
+            border-left: 3px solid var(--accent-orange);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .tip-box {
+            background: rgba(185, 66, 255, 0.05);
+            border-left: 3px solid var(--neon-purple);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        @media (max-width: 968px) {
+            .docs-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <canvas id="particles"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">◆</span>
+                <span class="logo-text">JARVIS<span class="omega">OMEGA</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="faq.html">FAQ</a>
+                <a href="/download" class="btn-download">Download</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <h3>Documentation</h3>
+            
+            <div class="sidebar-section">
+                <a href="#getting-started" class="sidebar-link active">Getting Started</a>
+                <a href="#installation" class="sidebar-link">Installation</a>
+                <a href="#activation" class="sidebar-link">Activation</a>
+                <a href="#setup" class="sidebar-link">Initial Setup</a>
+            </div>
+            
+            <div class="sidebar-section">
+                <a href="#commands" class="sidebar-link">Voice Commands</a>
+                <a href="#system" class="sidebar-link">System Control</a>
+                <a href="#apps" class="sidebar-link">Applications</a>
+                <a href="#web" class="sidebar-link">Web & Search</a>
+                <a href="#productivity" class="sidebar-link">Productivity</a>
+            </div>
+            
+            <div class="sidebar-section">
+                <a href="#customization" class="sidebar-link">Customization</a>
+                <a href="#themes" class="sidebar-link">Themes</a>
+                <a href="#custom-commands" class="sidebar-link">Custom Commands</a>
+                <a href="#settings" class="sidebar-link">Settings</a>
+            </div>
+            
+            <div class="sidebar-section">
+                <a href="#advanced" class="sidebar-link">Advanced</a>
+                <a href="#integrations" class="sidebar-link">Integrations</a>
+                <a href="#api" class="sidebar-link">API Access</a>
+                <a href="#troubleshooting" class="sidebar-link">Troubleshooting</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="docs-content">
+            <h1 id="getting-started">Getting Started with JARVIS Omega</h1>
+            <p>Welcome to JARVIS Omega! This comprehensive guide will help you get up and running with your AI voice assistant.</p>
+
+            <h2 id="installation">Installation</h2>
+            <p>Follow these steps to install JARVIS Omega on your Windows PC:</p>
+
+            <h3>System Requirements</h3>
+            <ul>
+                <li><strong>Operating System:</strong> Windows 10 (64-bit, Build 1809+) or Windows 11</li>
+                <li><strong>Processor:</strong> Intel Core i3 / AMD Ryzen 3 or better</li>
+                <li><strong>RAM:</strong> 4 GB minimum (8 GB recommended)</li>
+                <li><strong>Storage:</strong> 200 MB available space</li>
+                <li><strong>Microphone:</strong> Any USB or built-in microphone</li>
+                <li><strong>Internet:</strong> Required for activation and cloud features</li>
+            </ul>
+
+            <h3>Installation Steps</h3>
+            <ol>
+                <li><strong>Download:</strong> Get the latest installer from <a href="/download" style="color: var(--primary-red);">jarvisomega.com/download</a></li>
+                <li><strong>Run Installer:</strong> Right-click <code>JarvisOmega-Setup.exe</code> and select "Run as Administrator"</li>
+                <li><strong>Accept License:</strong> Read and accept the End-User License Agreement</li>
+                <li><strong>Choose Location:</strong> Select installation directory (default: <code>C:\Program Files\JARVIS Omega\</code>)</li>
+                <li><strong>Install:</strong> Click "Install" and wait for completion (1-2 minutes)</li>
+                <li><strong>Finish:</strong> Check "Launch JARVIS Omega" and click "Finish"</li>
+            </ol>
+
+            <div class="warning-box">
+                <strong>⚠️ Important:</strong> Always download from our official website. Never download from third-party sites to avoid malware or compromised versions.
+            </div>
+
+            <h2 id="activation">License Activation</h2>
+            <p>After installation, you'll need to activate your license:</p>
+
+            <h3>Free Plan Activation</h3>
+            <ol>
+                <li>Launch JARVIS Omega</li>
+                <li>Click "Continue with Free Plan"</li>
+                <li>Create an account with your email</li>
+                <li>Verify your email address</li>
+                <li>Start using immediately!</li>
+            </ol>
+
+            <h3>Pro/Business Plan Activation</h3>
+            <ol>
+                <li>Launch JARVIS Omega</li>
+                <li>Click "Enter License Key"</li>
+                <li>Paste your license key from the purchase email</li>
+                <li>Click "Activate"</li>
+                <li>Wait for online validation (5-10 seconds)</li>
+                <li>Enjoy full access to premium features!</li>
+            </ol>
+
+            <div class="tip-box">
+                <strong>💡 Pro Tip:</strong> Can't find your license key? Check your spam folder or contact <a href="mailto:support@jarvisomega.com" style="color: var(--neon-purple);">support@jarvisomega.com</a>
+            </div>
+
+            <h2 id="setup">Initial Setup</h2>
+
+            <h3>Microphone Configuration</h3>
+            <p>Proper microphone setup is crucial for accurate voice recognition:</p>
+            <ol>
+                <li><strong>Select Microphone:</strong> Go to Settings > Audio > Input Device</li>
+                <li><strong>Test Volume:</strong> Speak normally and ensure the meter reaches 60-80%</li>
+                <li><strong>Noise Reduction:</strong> Enable if you're in a noisy environment</li>
+                <li><strong>Voice Calibration:</strong> Complete the 5-minute calibration process</li>
+            </ol>
+
+            <div class="example-box">
+                <strong>Example Calibration Phrases:</strong>
+                <ul>
+                    <li>"Jarvis, what time is it?"</li>
+                    <li>"Jarvis, increase volume"</li>
+                    <li>"Jarvis, open Chrome"</li>
+                    <li>"Jarvis, search for pizza near me"</li>
+                </ul>
+            </div>
+
+            <h3>Wake Word Settings</h3>
+            <p>Configure how JARVIS responds to your voice:</p>
+            <ul>
+                <li><strong>Wake Word:</strong> Default is "Jarvis" (customizable in Pro/Business)</li>
+                <li><strong>Sensitivity:</strong> Adjust from 1-10 (recommended: 6-7)</li>
+                <li><strong>Timeout:</strong> Set command timeout (default: 5 seconds)</li>
+                <li><strong>Confirmation:</strong> Enable audio feedback for commands</li>
+            </ul>
+
+            <h2 id="commands">Voice Commands Reference</h2>
+            <p>JARVIS Omega understands natural language. You don't need to memorize exact phrases!</p>
+
+            <h3 id="system">System Control Commands</h3>
+
+            <div class="command-box">
+                <div class="command-title">Volume Control</div>
+                <pre><code>"Jarvis, set volume to 50"
+"Jarvis, increase volume"
+"Jarvis, decrease volume by 20"
+"Jarvis, mute"
+"Jarvis, unmute"</code></pre>
+            </div>
+
+            <div class="command-box">
+                <div class="command-title">Display & Brightness</div>
+                <pre><code>"Jarvis, increase brightness"
+"Jarvis, set brightness to 80%"
+"Jarvis, turn off screen"
+"Jarvis, night mode on"</code></pre>
+            </div>
+
+            <div class="command-box">
+                <div class="command-title">Power Management</div>
+                <pre><code>"Jarvis, shut down computer"
+"Jarvis, restart system"
+"Jarvis, sleep mode"
+"Jarvis, lock screen"
+"Jarvis, log out"</code></pre>
+            </div>
+
+            <h3 id="apps">Application Control</h3>
+
+            <div class="command-box">
+                <div class="command-title">Launch Applications</div>
+                <pre><code>"Jarvis, open Chrome"
+"Jarvis, launch Visual Studio Code"
+"Jarvis, start Spotify"
+"Jarvis, open calculator"
+"Jarvis, launch File Explorer"</code></pre>
+            </div>
+
+            <div class="command-box">
+                <div class="command-title">Window Management</div>
+                <pre><code>"Jarvis, switch to Chrome"
+"Jarvis, close current window"
+"Jarvis, minimize all windows"
+"Jarvis, snap window left"
+"Jarvis, maximize window"</code></pre>
+            </div>
+
+            <h3 id="web">Web & Search Commands</h3>
+
+            <div class="command-box">
+                <div class="command-title">Web Search</div>
+                <pre><code>"Jarvis, search Google for Python tutorials"
+"Jarvis, find recipes for lasagna"
+"Jarvis, YouTube search AI documentaries"
+"Jarvis, search Wikipedia for quantum physics"</code></pre>
+            </div>
+
+            <div class="command-box">
+                <div class="command-title">Direct Navigation</div>
+                <pre><code>"Jarvis, open GitHub"
+"Jarvis, go to Reddit"
+"Jarvis, navigate to Amazon"
+"Jarvis, open Gmail"</code></pre>
+            </div>
+
+            <h3 id="productivity">Productivity Commands</h3>
+
+            <div class="command-box">
+                <div class="command-title">Reminders & Calendar</div>
+                <pre><code>"Jarvis, set reminder for 3pm to call mom"
+"Jarvis, what's on my calendar today?"
+"Jarvis, add meeting to calendar tomorrow at 2pm"
+"Jarvis, show my reminders"</code></pre>
+            </div>
+
+            <div class="command-box">
+                <div class="command-title">File Operations</div>
+                <pre><code>"Jarvis, open recent files"
+"Jarvis, search for document containing budget"
+"Jarvis, open downloads folder"
+"Jarvis, show desktop"</code></pre>
+            </div>
+
+            <div class="command-box">
+                <div class="command-title">Screenshots & Recording</div>
+                <pre><code>"Jarvis, take screenshot"
+"Jarvis, screenshot current window"
+"Jarvis, start screen recording"
+"Jarvis, stop recording"</code></pre>
+            </div>
+
+            <h2 id="customization">Customization</h2>
+
+            <h3 id="themes">Theme Selection</h3>
+            <p>JARVIS Omega includes 8 stunning Iron Man-inspired themes:</p>
+            <ul>
+                <li><strong>Classic Red:</strong> Original JARVIS interface (Free)</li>
+                <li><strong>Arc Reactor Blue:</strong> Sleek cyan aesthetic (Free)</li>
+                <li><strong>Gold Titanium:</strong> Mark III gold theme (Free)</li>
+                <li><strong>Stealth:</strong> Dark ops black theme (Pro)</li>
+                <li><strong>Hulkbuster:</strong> Military green theme (Pro)</li>
+                <li><strong>Mark 50:</strong> Bleeding edge nanotech (Pro)</li>
+                <li><strong>Vibranium:</strong> Wakanda-inspired purple (Pro)</li>
+                <li><strong>Holographic:</strong> Futuristic hologram UI (Pro)</li>
+            </ul>
+
+            <div class="example-box">
+                <strong>Change Theme via Voice:</strong><br>
+                <code>"Jarvis, change theme to Stealth"</code><br>
+                <code>"Jarvis, apply Holographic theme"</code>
+            </div>
+
+            <h3 id="custom-commands">Creating Custom Commands</h3>
+            <p>Pro and Business users can create unlimited custom commands:</p>
+
+            <h4>Step-by-Step Guide</h4>
+            <ol>
+                <li>Open Settings > Commands > Custom Commands</li>
+                <li>Click "+ Add Command"</li>
+                <li>Enter your trigger phrase</li>
+                <li>Select action type:
+                    <ul>
+                        <li><strong>Launch Application:</strong> Open any program</li>
+                        <li><strong>Open URL:</strong> Navigate to websites</li>
+                        <li><strong>Run Script:</strong> Execute PowerShell/Batch scripts</li>
+                        <li><strong>System Command:</strong> Run Windows commands</li>
+                        <li><strong>Macro:</strong> Perform multiple actions in sequence</li>
+                    </ul>
+                </li>
+                <li>Configure action parameters</li>
+                <li>Test the command</li>
+                <li>Save</li>
+            </ol>
+
+            <div class="example-box">
+                <strong>Example Custom Command:</strong><br>
+                <strong>Trigger:</strong> "Jarvis, start work mode"<br>
+                <strong>Actions:</strong>
+                <ol>
+                    <li>Open Visual Studio Code</li>
+                    <li>Open Spotify</li>
+                    <li>Open Chrome with project tabs</li>
+                    <li>Set volume to 30%</li>
+                    <li>Enable Do Not Disturb</li>
+                </ol>
+            </div>
+
+            <h3 id="settings">Settings & Preferences</h3>
+
+            <h4>General Settings</h4>
+            <ul>
+                <li><strong>Language:</strong> Choose from 5+ supported languages</li>
+                <li><strong>Voice Feedback:</strong> Enable/disable audio responses</li>
+                <li><strong>Auto-Start:</strong> Launch JARVIS with Windows</li>
+                <li><strong>Minimize to Tray:</strong> Run in background</li>
+            </ul>
+
+            <h4>Privacy Settings</h4>
+            <ul>
+                <li><strong>Local Processing:</strong> Keep all data on device</li>
+                <li><strong>Cloud Features:</strong> Enable for advanced capabilities</li>
+                <li><strong>Usage Analytics:</strong> Help improve JARVIS (optional)</li>
+                <li><strong>Voice Data:</strong> Auto-delete after 30 days</li>
+            </ul>
+
+            <h2 id="advanced">Advanced Features</h2>
+
+            <h3 id="integrations">Third-Party Integrations</h3>
+
+            <h4>Smart Home Integration (Pro/Business)</h4>
+            <p>Connect your smart home devices:</p>
+            <ol>
+                <li>Go to Settings > Integrations</li>
+                <li>Select platform (Philips Hue, SmartThings, etc.)</li>
+                <li>Click "Connect"</li>
+                <li>Log in to your smart home account</li>
+                <li>Authorize JARVIS to access devices</li>
+                <li>Device discovery will run automatically</li>
+            </ol>
+
+            <div class="command-box">
+                <div class="command-title">Smart Home Commands</div>
+                <pre><code>"Jarvis, turn on bedroom lights"
+"Jarvis, set living room to movie mode"
+"Jarvis, turn off all lights"
+"Jarvis, set thermostat to 72 degrees"</code></pre>
+            </div>
+
+            <h3 id="api">API Access (Business Only)</h3>
+            <p>Business plan includes API access for custom integrations:</p>
+
+            <pre><code>// Example API Call
+const jarvisAPI = require('jarvis-omega-api');
+
+jarvisAPI.authenticate('YOUR_API_KEY');
+
+jarvisAPI.sendCommand({
+    command: 'system.volume.set',
+    parameters: { level: 50 }
+}).then(response => {
+    console.log('Volume set successfully');
+});</code></pre>
+
+            <p><strong>API Documentation:</strong> Full API docs available at <a href="#" style="color: var(--primary-red);">api.jarvisomega.com</a></p>
+
+            <h2 id="troubleshooting">Troubleshooting</h2>
+
+            <h3>Common Issues & Solutions</h3>
+
+            <div class="warning-box">
+                <strong>Issue: JARVIS Not Responding</strong>
+                <ul>
+                    <li>Check microphone is connected and enabled</li>
+                    <li>Verify JARVIS is running (check system tray)</li>
+                    <li>Restart JARVIS Omega application</li>
+                    <li>Recalibrate voice recognition</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <strong>Issue: License Validation Failed</strong>
+                <ul>
+                    <li>Check internet connection</li>
+                    <li>Verify license key is correct (copy-paste from email)</li>
+                    <li>Ensure you haven't exceeded device limit</li>
+                    <li>Contact support if key is deactivated</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <strong>Issue: High CPU/Memory Usage</strong>
+                <ul>
+                    <li>Disable unused integrations</li>
+                    <li>Reduce sensitivity settings</li>
+                    <li>Close background applications</li>
+                    <li>Update to latest version</li>
+                </ul>
+            </div>
+
+            <h3>Getting Help</h3>
+            <p>If you can't find a solution:</p>
+            <ul>
+                <li>📖 Check our <a href="faq.html" style="color: var(--primary-red);">FAQ page</a></li>
+                <li>💬 Join our <a href="#" style="color: var(--primary-red);">Discord community</a></li>
+                <li>📧 Email <a href="mailto:support@jarvisomega.com" style="color: var(--primary-red);">support@jarvisomega.com</a></li>
+                <li>🎫 Submit a ticket via <a href="contact.html" style="color: var(--primary-red);">Contact page</a></li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>💡 Need More Help?</strong><br>
+                Business plan users get 24/7 priority support with 4-hour response time. <a href="pricing.html" style="color: var(--neon-purple);">Upgrade now</a> for dedicated assistance!
+            </div>
+
+            <p style="margin-top: 60px; text-align: center; color: var(--text-dim);">
+                <a href="index.html" style="color: var(--primary-red); text-decoration: none;">← Back to Home</a>
+            </p>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Smooth scroll for sidebar links
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // Update active state
+                    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Update active link on scroll
+        const sections = document.querySelectorAll('.docs-content h2[id], .docs-content h3[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <title>FAQ - JARVIS Omega</title>
+    <meta name="description" content="Frequently Asked Questions about JARVIS Omega voice assistant.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .faq-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+        }
+        
+        .faq-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .faq-header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 56px;
+            margin-bottom: 20px;
+        }
+        
+        .faq-header p {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+        
+        .faq-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        
+        .category-btn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 45, 0.95));
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background: rgba(255, 51, 51, 0.1);
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 51, 51, 0.3);
+        }
+        
+        .faq-item {
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 45, 0.95));
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .faq-item:hover {
+            border-color: var(--primary-red);
+            box-shadow: 0 10px 30px rgba(255, 51, 51, 0.2);
+        }
+        
+        .faq-question {
+            padding: 25px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .faq-question:hover {
+            color: var(--primary-red);
+        }
+        
+        .faq-icon {
+            font-size: 24px;
+            transition: transform 0.3s;
+            color: var(--primary-red);
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 30px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            padding: 0 30px 25px 30px;
+        }
+        
+        .faq-answer p {
+            margin-bottom: 15px;
+        }
+        
+        .faq-answer ul, .faq-answer ol {
+            margin: 15px 0 15px 30px;
+        }
+        
+        .faq-answer li {
+            margin-bottom: 8px;
+        }
+        
+        .faq-answer strong {
+            color: var(--text-primary);
+        }
+        
+        .contact-cta {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(255, 51, 51, 0.1), rgba(255, 136, 0, 0.1));
+            border: 1px solid var(--primary-red);
+            border-radius: 20px;
+        }
+        
+        .contact-cta h2 {
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 15px;
+        }
+        
+        .contact-cta p {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+        
+        .contact-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--primary-red);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .contact-btn:hover {
+            background: var(--accent-orange);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 51, 51, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <canvas id="particles"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">◆</span>
+                <span class="logo-text">JARVIS<span class="omega">OMEGA</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="docs.html">Documentation</a>
+                <a href="/download" class="btn-download">Download</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="faq-container">
+        <div class="faq-header">
+            <h1>Frequently Asked Questions</h1>
+            <p>Find answers to common questions about JARVIS Omega</p>
+        </div>
+
+        <div class="faq-categories">
+            <button class="category-btn active" onclick="filterCategory('all')">All Questions</button>
+            <button class="category-btn" onclick="filterCategory('general')">General</button>
+            <button class="category-btn" onclick="filterCategory('technical')">Technical</button>
+            <button class="category-btn" onclick="filterCategory('billing')">Billing</button>
+            <button class="category-btn" onclick="filterCategory('features')">Features</button>
+        </div>
+
+        <!-- General Questions -->
+        <div class="faq-item" data-category="general">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What is JARVIS Omega?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p>JARVIS Omega is an advanced AI-powered voice assistant for Windows that allows you to control your PC using natural voice commands. Inspired by Iron Man's JARVIS, it features 8 stunning themes, 12+ powerful features including system control, app launching, web searches, and much more.</p>
+                <p>Unlike cloud-based assistants, JARVIS Omega processes most commands locally on your device, ensuring privacy and faster response times.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="general">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What makes JARVIS Omega different from other voice assistants?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>Key Differentiators:</strong></p>
+                <ul>
+                    <li><strong>Privacy-First:</strong> Local processing means your voice data never leaves your device</li>
+                    <li><strong>Customizable Themes:</strong> 8 stunning Iron Man-inspired themes</li>
+                    <li><strong>Deep System Integration:</strong> Control Windows features other assistants can't access</li>
+                    <li><strong>Offline Capability:</strong> Works without internet for most features</li>
+                    <li><strong>Developer-Friendly:</strong> Extensible with custom commands and plugins</li>
+                    <li><strong>No Monthly Fees:</strong> One-time purchase options available</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="general">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Which operating systems are supported?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>Currently Supported:</strong></p>
+                <ul>
+                    <li>Windows 10 (64-bit) - Build 1809 or later</li>
+                    <li>Windows 11 (all versions)</li>
+                </ul>
+                <p><strong>Minimum Requirements:</strong></p>
+                <ul>
+                    <li>Processor: Intel Core i3 or AMD equivalent</li>
+                    <li>RAM: 4 GB (8 GB recommended)</li>
+                    <li>Storage: 200 MB available space</li>
+                    <li>Microphone: Any USB or built-in microphone</li>
+                </ul>
+                <p><strong>Coming Soon:</strong> macOS and Linux support is planned for Q3 2026.</p>
+            </div>
+        </div>
+
+        <!-- Technical Questions -->
+        <div class="faq-item" data-category="technical">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How do I install JARVIS Omega?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>Installation Steps:</strong></p>
+                <ol>
+                    <li>Download the installer from our <a href="/download" style="color: var(--primary-red);">download page</a></li>
+                    <li>Run the .exe file as Administrator</li>
+                    <li>Follow the setup wizard instructions</li>
+                    <li>Enter your license key (for paid versions) or choose Free mode</li>
+                    <li>Configure your microphone permissions</li>
+                    <li>Complete the voice calibration process</li>
+                    <li>Start using JARVIS Omega!</li>
+                </ol>
+                <p>For detailed instructions, see our <a href="docs.html" style="color: var(--primary-red);">Documentation</a>.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="technical">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Why isn't JARVIS responding to my voice commands?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>Troubleshooting Steps:</strong></p>
+                <ol>
+                    <li><strong>Check Microphone:</strong> Ensure your microphone is connected and set as default in Windows sound settings</li>
+                    <li><strong>Permission Settings:</strong> Grant microphone permissions in Windows Privacy Settings</li>
+                    <li><strong>Wake Word:</strong> Make sure you're saying the wake word "Jarvis" before commands</li>
+                    <li><strong>Background Noise:</strong> Reduce ambient noise or move to a quieter location</li>
+                    <li><strong>Recalibrate:</strong> Go to Settings > Voice > Recalibrate Voice Recognition</li>
+                    <li><strong>Update:</strong> Ensure you have the latest version installed</li>
+                </ol>
+                <p>If issues persist, contact our <a href="contact.html" style="color: var(--primary-red);">support team</a>.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="technical">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Can I use JARVIS Omega without an internet connection?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>Yes!</strong> Most features work completely offline:</p>
+                <p><strong>Offline Features:</strong></p>
+                <ul>
+                    <li>System controls (volume, brightness, power)</li>
+                    <li>App launching and window management</li>
+                    <li>File operations</li>
+                    <li>Calendar and reminders</li>
+                    <li>Basic calculations</li>
+                    <li>Local music playback</li>
+                </ul>
+                <p><strong>Internet Required For:</strong></p>
+                <ul>
+                    <li>Web searches</li>
+                    <li>Weather updates</li>
+                    <li>News briefings</li>
+                    <li>Email operations</li>
+                    <li>Smart home device control</li>
+                    <li>License validation (periodic)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="technical">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How do I customize voice commands?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>Custom Commands Setup:</strong></p>
+                <ol>
+                    <li>Open JARVIS Omega settings</li>
+                    <li>Navigate to <strong>Commands > Custom Commands</strong></li>
+                    <li>Click "Add New Command"</li>
+                    <li>Enter your trigger phrase (e.g., "open my project")</li>
+                    <li>Choose action type: Launch App, Run Script, Execute Command, etc.</li>
+                    <li>Configure action parameters</li>
+                    <li>Save and test your command</li>
+                </ol>
+                <p><strong>Pro Tip:</strong> Use variables like {date}, {time}, {clipboard} in your commands for dynamic content!</p>
+            </div>
+        </div>
+
+        <!-- Billing Questions -->
+        <div class="faq-item" data-category="billing">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What's the difference between Free, Pro, and Business plans?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>Free Plan:</strong></p>
+                <ul>
+                    <li>1 device license</li>
+                    <li>3 themes available</li>
+                    <li>Basic features only</li>
+                    <li>Community support</li>
+                    <li>Personal use only</li>
+                </ul>
+                <p><strong>Pro Plan ($9/month or $84/year):</strong></p>
+                <ul>
+                    <li>3 device licenses</li>
+                    <li>All 8 premium themes</li>
+                    <li>All features unlocked</li>
+                    <li>Priority email support</li>
+                    <li>Personal & business use</li>
+                    <li>Custom commands & plugins</li>
+                </ul>
+                <p><strong>Business Plan ($29/month or $288/year):</strong></p>
+                <ul>
+                    <li>10 device licenses</li>
+                    <li>All features + API access</li>
+                    <li>White-label options</li>
+                    <li>24/7 priority support</li>
+                    <li>Dedicated account manager</li>
+                    <li>Custom integrations</li>
+                    <li>Volume discounts available</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="billing">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Do you offer a free trial?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>Yes!</strong> All paid plans include a <strong>14-day free trial</strong> with full access to premium features.</p>
+                <p><strong>Trial Details:</strong></p>
+                <ul>
+                    <li>No credit card required for Free plan</li>
+                    <li>Credit card required for Pro/Business trials</li>
+                    <li>Cancel anytime before trial ends - no charges</li>
+                    <li>Automatic conversion to paid plan after 14 days</li>
+                    <li>One trial per email address</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="billing">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What is your refund policy?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p>We offer a <strong>14-day money-back guarantee</strong> on all purchases.</p>
+                <p><strong>Refund Eligibility:</strong></p>
+                <ul>
+                    <li>Request within 14 days of purchase</li>
+                    <li>No questions asked policy</li>
+                    <li>Full refund to original payment method</li>
+                    <li>Processed within 5-7 business days</li>
+                </ul>
+                <p><strong>How to Request:</strong></p>
+                <ol>
+                    <li>Email support@jarvisomega.com</li>
+                    <li>Include your order number and email</li>
+                    <li>Briefly explain reason (optional but helpful)</li>
+                    <li>Receive confirmation within 24 hours</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="billing">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Can I cancel my subscription anytime?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>Yes, absolutely!</strong> You can cancel your subscription at any time with no penalties.</p>
+                <p><strong>Cancellation Process:</strong></p>
+                <ol>
+                    <li>Go to <strong>Account Settings > Billing</strong></li>
+                    <li>Click "Cancel Subscription"</li>
+                    <li>Confirm cancellation</li>
+                    <li>You'll retain access until the end of your billing period</li>
+                </ol>
+                <p><strong>What Happens After Cancellation:</strong></p>
+                <ul>
+                    <li>Access continues until current period ends</li>
+                    <li>No further charges</li>
+                    <li>Your data is retained for 90 days</li>
+                    <li>You can reactivate anytime</li>
+                    <li>Free plan features remain available</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Features Questions -->
+        <div class="faq-item" data-category="features">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What commands can JARVIS understand?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p>JARVIS Omega understands hundreds of commands across 12+ categories:</p>
+                <p><strong>System Control:</strong></p>
+                <ul>
+                    <li>"Set volume to 50%", "Mute/Unmute"</li>
+                    <li>"Increase brightness", "Decrease brightness"</li>
+                    <li>"Shut down", "Restart", "Sleep mode"</li>
+                    <li>"Lock screen", "Log out"</li>
+                </ul>
+                <p><strong>Application Management:</strong></p>
+                <ul>
+                    <li>"Open Chrome", "Close all browsers"</li>
+                    <li>"Launch Spotify", "Start Visual Studio Code"</li>
+                    <li>"Switch to [app name]"</li>
+                </ul>
+                <p><strong>Web & Search:</strong></p>
+                <ul>
+                    <li>"Search Google for [query]"</li>
+                    <li>"What's the weather today?"</li>
+                    <li>"Open YouTube and play [video]"</li>
+                </ul>
+                <p><strong>Productivity:</strong></p>
+                <ul>
+                    <li>"Set reminder for 3pm", "What's on my calendar?"</li>
+                    <li>"Take a screenshot", "Start screen recording"</li>
+                    <li>"Open recent files"</li>
+                </ul>
+                <p>For the complete command list, visit our <a href="docs.html" style="color: var(--primary-red);">Documentation</a>.</p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="features">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Can JARVIS control smart home devices?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>Yes!</strong> JARVIS Omega integrates with popular smart home platforms:</p>
+                <p><strong>Supported Platforms:</strong></p>
+                <ul>
+                    <li><strong>Philips Hue:</strong> Control lights, colors, scenes</li>
+                    <li><strong>Samsung SmartThings:</strong> Manage all connected devices</li>
+                    <li><strong>TP-Link Kasa:</strong> Smart plugs, switches, bulbs</li>
+                    <li><strong>Google Home:</strong> Control Google-connected devices</li>
+                    <li><strong>IFTTT:</strong> Create custom automations</li>
+                </ul>
+                <p><strong>Example Commands:</strong></p>
+                <ul>
+                    <li>"Turn on living room lights"</li>
+                    <li>"Set bedroom to 50% brightness"</li>
+                    <li>"Activate movie mode"</li>
+                    <li>"Turn off all smart plugs"</li>
+                </ul>
+                <p><em>Note: Smart home control requires internet connection and Pro or Business plan.</em></p>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="features">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How secure is my voice data?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p>Your privacy and security are our top priorities:</p>
+                <p><strong>Privacy Measures:</strong></p>
+                <ul>
+                    <li><strong>Local Processing:</strong> 95% of commands processed on your device</li>
+                    <li><strong>No Recording:</strong> Voice data is NOT recorded or stored</li>
+                    <li><strong>Encrypted Transmission:</strong> Any data sent to servers uses TLS 1.3 encryption</li>
+                    <li><strong>Automatic Deletion:</strong> Cloud-processed data deleted after 30 days</li>
+                    <li><strong>No Third-Party Sharing:</strong> We never sell or share your data</li>
+                    <li><strong>Opt-Out Option:</strong> Disable cloud processing entirely</li>
+                </ul>
+                <p><strong>Security Features:</strong></p>
+                <ul>
+                    <li>Voice authentication (Business plan)</li>
+                    <li>Command approval for sensitive actions</li>
+                    <li>Activity logs you can review and delete</li>
+                    <li>Regular security audits and updates</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item" data-category="general">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Can I use multiple languages?</span>
+                <span class="faq-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p><strong>Currently Supported Languages:</strong></p>
+                <ul>
+                    <li>English (US, UK, AU)</li>
+                    <li>Spanish (ES, LATAM)</li>
+                    <li>French</li>
+                    <li>German</li>
+                    <li>Italian</li>
+                </ul>
+                <p><strong>Coming in 2026:</strong></p>
+                <ul>
+                    <li>Portuguese, Japanese, Korean</li>
+                    <li>Chinese (Simplified & Traditional)</li>
+                    <li>Hindi, Arabic, Russian</li>
+                </ul>
+                <p>You can switch languages in Settings > Language & Region.</p>
+            </div>
+        </div>
+
+        <div class="contact-cta">
+            <h2>Still Have Questions?</h2>
+            <p>Our support team is here to help you 24/7</p>
+            <a href="contact.html" class="contact-btn">Contact Support</a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function toggleFaq(element) {
+            const faqItem = element.parentElement;
+            const allItems = document.querySelectorAll('.faq-item');
+            
+            // Close others
+            allItems.forEach(item => {
+                if (item !== faqItem) {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Toggle current
+            faqItem.classList.toggle('active');
+        }
+
+        function filterCategory(category) {
+            const items = document.querySelectorAll('.faq-item');
+            const buttons = document.querySelectorAll('.category-btn');
+            
+            // Update button states
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter items
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+                item.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+# robots.txt for JARVIS Omega
+User-agent: *
+Allow: /
+Allow: /register
+Allow: /login
+Allow: /pricing
+Allow: /download
+Allow: /faq
+Allow: /contact
+Allow: /docs
+Allow: /privacy
+Allow: /terms
+Allow: /license
+
+# Don't index API endpoints
+Disallow: /api/
+
+# Don't index dashboard (requires auth)
+Disallow: /dashboard
+
+# Sitemap location
+Sitemap: https://jarvisassistant.online/sitemap.xml

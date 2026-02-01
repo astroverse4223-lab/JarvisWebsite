@@ -1,0 +1,8 @@
+public
+_public_backup
+node_modules
+.git
+*.md
+*.txt
+*.bat
+*.ps1

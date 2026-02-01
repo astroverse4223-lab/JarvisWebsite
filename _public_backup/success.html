@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Successful - JARVIS Omega</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .success-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px;
+            text-align: center;
+        }
+        
+        .success-card {
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 45, 0.95));
+            border: 2px solid rgba(0, 255, 100, 0.4);
+            border-radius: 20px;
+            padding: 60px 40px;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0, 255, 100, 0.2);
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 30px;
+        }
+        
+        .success-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #00ff66;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        
+        .success-message {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+        
+        .download-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff3333, #ff6666);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+        
+        .download-button:hover {
+            box-shadow: 0 8px 30px rgba(255, 51, 51, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        .secondary-button {
+            background: transparent;
+            border: 2px solid #ff3333;
+            color: #ff3333;
+        }
+        
+        .secondary-button:hover {
+            background: rgba(255, 51, 51, 0.1);
+        }
+        
+        .info-box {
+            background: rgba(0, 255, 100, 0.1);
+            border: 1px solid rgba(0, 255, 100, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+        }
+        
+        .info-box h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: #00ff66;
+            margin-bottom: 15px;
+        }
+        
+        .info-box ul {
+            font-family: 'Rajdhani', sans-serif;
+            color: rgba(255, 255, 255, 0.8);
+            list-style: none;
+            padding: 0;
+        }
+        
+        .info-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .info-box li:before {
+            content: "✓";
+            color: #00ff66;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="grid-overlay"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <div class="success-container">
+        <div class="success-card">
+            <div class="success-icon">✓</div>
+            <h1 class="success-title">Payment Successful!</h1>
+            <p class="success-message">
+                Welcome to JARVIS Omega <span id="plan-name">Pro</span>! 
+                Your subscription is now active and your 14-day trial has begun.
+            </p>
+            
+            <div style="margin: 30px 0;">
+                <a href="download.html" class="download-button">Download JARVIS Omega</a>
+                <a href="#" class="download-button secondary-button" onclick="openLicenseKey()">View License Key</a>
+            </div>
+            
+            <div class="info-box">
+                <h3>What's Next?</h3>
+                <ul>
+                    <li>Check your email for your license key and receipt</li>
+                    <li>Download and install JARVIS Omega</li>
+                    <li>Enter your license key when prompted</li>
+                    <li>Enjoy all Pro features with your 14-day trial</li>
+                    <li>Cancel anytime before trial ends (no charge)</li>
+                </ul>
+            </div>
+            
+            <p style="margin-top: 30px; color: rgba(255,255,255,0.6); font-family: 'Rajdhani', sans-serif;">
+                Need help? <a href="mailto:support@jarvisomega.com" style="color: #ff3333;">Contact Support</a> | 
+                <a href="#" onclick="manageSubscription()" style="color: #ff3333;">Manage Subscription</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Get session ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
+        
+        if (sessionId) {
+            // Fetch session details and show plan name
+            fetch(`/api/get-session-details?session_id=${sessionId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.plan) {
+                        document.getElementById('plan-name').textContent = 
+                            data.plan.charAt(0).toUpperCase() + data.plan.slice(1);
+                    }
+                })
+                .catch(err => console.error('Error:', err));
+        }
+        
+        function openLicenseKey() {
+            alert('Your license key has been sent to your email. Please check your inbox.');
+        }
+        
+        function manageSubscription() {
+            // Redirect to Stripe customer portal
+            window.location.href = 'https://billing.stripe.com/p/login/YOUR_PORTAL_ID';
+        }
+    </script>
+</body>
+</html>
