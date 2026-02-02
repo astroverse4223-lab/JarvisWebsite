@@ -31,6 +31,7 @@
 # Show help
 .\deploy-vercel.ps1 -Help
 ```
+.\deploy-vercel.ps1 -Production -AddDomain
 
 ---
 

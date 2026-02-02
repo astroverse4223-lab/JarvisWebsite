@@ -339,10 +339,21 @@ if ($LASTEXITCODE -eq 0) {
         Write-Host "================================================================" -ForegroundColor $SuccessColor
         Write-Host ""
         Write-Host "[WEB] Your website is live at:" -ForegroundColor $InfoColor
-        Write-Host "   $url" -ForegroundColor White
+        Write-Host "   Preview: $url" -ForegroundColor White
+        if ($Production) {
+            Write-Host "   Production: https://$Domain" -ForegroundColor $SuccessColor
+        }
         Write-Host ""
         Write-Host "[DASHBOARD] Vercel Dashboard:" -ForegroundColor $InfoColor
         Write-Host "   https://vercel.com/dashboard" -ForegroundColor White
+        Write-Host ""
+        
+        if ($Production -and -not $AddDomain) {
+            Write-Host "[NOTE] To use your custom domain ($Domain):" -ForegroundColor $WarningColor
+            Write-Host "   Run: .\deploy-vercel.ps1 -Production -AddDomain" -ForegroundColor White
+            Write-Host "   Or add it in: https://vercel.com/devcodex1s-projects/jarviswebsite/settings/domains" -ForegroundColor White
+            Write-Host ""
+        }
         Write-Host ""
         
         # Copy URL to clipboard

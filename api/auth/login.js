@@ -77,10 +77,15 @@ module.exports = async (req, res) => {
             { expiresIn: '30d' }
         );
         
-        // Update last login
+        // Update last login and last active timestamp
         await users.updateOne(
             { _id: user._id },
-            { $set: { lastLogin: new Date() } }
+            { 
+                $set: { 
+                    lastLogin: new Date(),
+                    lastActive: new Date()
+                } 
+            }
         );
         
         return res.status(200).json({

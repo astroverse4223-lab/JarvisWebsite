@@ -281,4 +281,42 @@ document.addEventListener('DOMContentLoaded', () => {
     if (canvas) {
         new ParticleSystem(canvas);
     }
+    
+    // Start heartbeat for active user tracking
+    startHeartbeat();
 });
+
+// Heartbeat system to track active users
+function startHeartbeat() {
+    const token = localStorage.getItem('jarvis_token');
+    
+    if (!token) {
+        return; // No token, user not logged in
+    }
+    
+    // Send heartbeat immediately
+    sendHeartbeat(token);
+    
+    // Then send every 5 minutes
+    setInterval(() => {
+        sendHeartbeat(token);
+    }, 5 * 60 * 1000); // 5 minutes
+}
+
+async function sendHeartbeat(token) {
+    try {
+        const response = await fetch('/api/heartbeat', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            console.log('Heartbeat failed:', response.status);
+        }
+    } catch (error) {
+        console.log('Heartbeat error:', error.message);
+    }
+}

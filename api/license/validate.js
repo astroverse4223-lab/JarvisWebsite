@@ -124,7 +124,7 @@ module.exports = async (req, res) => {
             let prioritySupport = false;
             
             if (user.plan === 'pro') {
-                maxDevices = 3;
+                maxDevices = 5;
                 cloudSync = true;
                 prioritySupport = true;
             } else if (user.plan === 'business') {
