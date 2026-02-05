@@ -492,10 +492,8 @@
     <script>
         // Logout function
         function logoutUser() {
-            if (confirm('Are you sure you want to logout?')) {
-                localStorage.clear(); // Clear everything including isAdmin
-                window.location.href = '/register';
-            }
+            localStorage.clear(); // Clear everything including isAdmin
+            window.location.href = '/register';
         }
         
         // Show user profile if logged in

@@ -415,14 +415,12 @@
         }
         
         function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                localStorage.removeItem('authToken');
-                localStorage.removeItem('userName');
-                localStorage.removeItem('userEmail');
-                localStorage.removeItem('userPlan');
-                localStorage.removeItem('userDevices');
-                window.location.href = '/';
-            }
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userPlan');
+            localStorage.removeItem('userDevices');
+            window.location.href = '/';
         }
         
         // Load dashboard on page load
