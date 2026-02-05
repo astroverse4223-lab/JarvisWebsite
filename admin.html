@@ -324,11 +324,23 @@
             <button class="tab-btn" onclick="switchTab('revenue')" style="padding: 12px 25px; background: rgba(102, 126, 234, 0.1); color: #667eea; border: 2px solid #667eea; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
                 💰 Revenue
             </button>
+            <button class="tab-btn" onclick="switchTab('subscriptions')" style="padding: 12px 25px; background: rgba(102, 126, 234, 0.1); color: #667eea; border: 2px solid #667eea; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                💳 Subscriptions
+            </button>
             <button class="tab-btn" onclick="switchTab('plugins')" style="padding: 12px 25px; background: rgba(102, 126, 234, 0.1); color: #667eea; border: 2px solid #667eea; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
                 🔌 Plugins
             </button>
             <button class="tab-btn" onclick="switchTab('users')" style="padding: 12px 25px; background: rgba(102, 126, 234, 0.1); color: #667eea; border: 2px solid #667eea; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
                 👥 Users
+            </button>
+            <button class="tab-btn" onclick="switchTab('support')" style="padding: 12px 25px; background: rgba(102, 126, 234, 0.1); color: #667eea; border: 2px solid #667eea; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                🎫 Support
+            </button>
+            <button class="tab-btn" onclick="switchTab('health')" style="padding: 12px 25px; background: rgba(102, 126, 234, 0.1); color: #667eea; border: 2px solid #667eea; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                🏥 Health
+            </button>
+            <button class="tab-btn" onclick="switchTab('announcements')" style="padding: 12px 25px; background: rgba(102, 126, 234, 0.1); color: #667eea; border: 2px solid #667eea; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                📢 Announcements
             </button>
         </div>
 
@@ -478,6 +490,196 @@
 
                 <div id="noDataMessage" class="no-data" style="display: none;">
                     <p>No users found</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Tools Tab -->
+        <div id="supportTab" class="tab-content" style="display: none;">
+            <div class="users-section">
+                <h2>🎫 Support Tools</h2>
+                
+                <!-- Quick User Lookup -->
+                <div style="margin-bottom: 30px;">
+                    <h3>Quick User Lookup</h3>
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <input type="email" id="lookupEmail" placeholder="Enter user email..." style="flex: 1; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em;">
+                        <button onclick="lookupUser()" style="padding: 12px 30px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            🔍 Lookup
+                        </button>
+                    </div>
+                    <div id="userLookupResult"></div>
+                </div>
+
+                <!-- User Notes -->
+                <div id="userNotesSection" style="display: none; margin-top: 30px;">
+                    <h3>Support Notes for <span id="notesUserEmail" style="color: #667eea;"></span></h3>
+                    
+                    <!-- Add Note Form -->
+                    <div style="margin-bottom: 20px;">
+                        <textarea id="newNote" placeholder="Add a support note..." style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; min-height: 100px; font-family: inherit;"></textarea>
+                        <button onclick="addNote()" style="margin-top: 10px; padding: 10px 25px; background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                            ➕ Add Note
+                        </button>
+                    </div>
+
+                    <!-- Notes List -->
+                    <div id="notesList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscriptions Tab -->
+        <div id="subscriptionsTab" class="tab-content" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="activeSubsCount">-</h3>
+                    <p>Active Subscriptions</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="conversionRate" style="color: #28a745;">-%</h3>
+                    <p>Trial Conversion Rate</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="upcomingRenewals" style="color: #ffc107;">-</h3>
+                    <p>Renewals (Next 7 Days)</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="lifetimeSubs" style="color: #17a2b8;">-</h3>
+                    <p>Lifetime Members</p>
+                </div>
+            </div>
+
+            <!-- Active Subscriptions Table -->
+            <div class="users-section" style="margin-top: 30px;">
+                <h2>Active Subscriptions</h2>
+                <div id="subsLoading" class="loading">Loading subscriptions...</div>
+                <div id="subsContainer" style="display: none;">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                                <th>Renews On</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subsTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="noSubs" class="no-data" style="display: none;">
+                    <p>No active subscriptions found</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Announcements Tab -->
+        <div id="announcementsTab" class="tab-content" style="display: none;">
+            <div class="users-section">
+                <h2>📢 Send Announcement</h2>
+                
+                <!-- Email Form -->
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: 600;">Target Audience</label>
+                        <select id="targetPlan" style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em;">
+                            <option value="all">All Users</option>
+                            <option value="free">Free Users Only</option>
+                            <option value="trial">Trial Users Only</option>
+                            <option value="pro">Pro Users Only</option>
+                            <option value="lifetime">Lifetime Users Only</option>
+                            <option value="business">Business Users Only</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: 600;">Subject</label>
+                        <input type="text" id="emailSubject" placeholder="Email subject..." style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: 600;">Message</label>
+                        <textarea id="emailMessage" placeholder="Email message..." style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1em; min-height: 200px; font-family: inherit;"></textarea>
+                    </div>
+
+                    <button onclick="sendAnnouncement()" style="width: 100%; padding: 15px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1.1em;">
+                        📧 Send Announcement
+                    </button>
+                </div>
+
+                <!-- Previous Campaigns -->
+                <div style="margin-top: 50px;">
+                    <h3>Previous Campaigns</h3>
+                    <div id="campaignsLoading" class="loading">Loading campaigns...</div>
+                    <div id="campaignsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Health Monitor Tab -->
+        <div id="healthTab" class="tab-content" style="display: none;">
+            <!-- Status Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="systemStatus" style="color: #28a745;">●</h3>
+                    <p>System Status</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="mongoStatus">-</h3>
+                    <p>MongoDB</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="stripeStatus">-</h3>
+                    <p>Stripe API</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="apiResponseTime">-</h3>
+                    <p>Avg Response Time</p>
+                </div>
+            </div>
+
+            <!-- API Endpoints Status -->
+            <div class="users-section" style="margin-top: 30px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>API Endpoint Status</h2>
+                    <button onclick="refreshHealthCheck()" style="padding: 10px 25px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                        🔄 Refresh
+                    </button>
+                </div>
+                
+                <div id="healthLoading" class="loading">Running health checks...</div>
+                <div id="endpointsStatus" style="display: none;">
+                    <div style="display: grid; gap: 15px;">
+                        <!-- Endpoint status cards will be inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Errors -->
+            <div class="users-section" style="margin-top: 30px;">
+                <h2>Recent System Logs</h2>
+                <div id="logsContainer">
+                    <p style="color: #999;">Error logging will be displayed here</p>
+                </div>
+            </div>
+
+            <!-- Webhook Status -->
+            <div class="users-section" style="margin-top: 30px;">
+                <h2>Stripe Webhook Status</h2>
+                <div id="webhookStatus">
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+                        <p><strong>Webhook Endpoint:</strong> <code>https://jarvisassistant.online/api/stripe-webhook</code></p>
+                        <p><strong>Events Monitored:</strong></p>
+                        <ul style="margin: 10px 0; padding-left: 20px;">
+                            <li>checkout.session.completed</li>
+                            <li>customer.subscription.deleted</li>
+                            <li>customer.subscription.updated</li>
+                            <li>invoice.payment_succeeded</li>
+                            <li>invoice.payment_failed</li>
+                        </ul>
+                        <p id="webhookSecretStatus" style="margin-top: 15px;"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -918,6 +1120,365 @@
 
         // Search input
         document.getElementById('searchInput').addEventListener('input', renderUsers);
+
+        // Support Tools Functions
+        let currentLookupUserId = null;
+
+        async function lookupUser() {
+            const email = document.getElementById('lookupEmail').value.trim();
+            if (!email) {
+                alert('Please enter an email address');
+                return;
+            }
+
+            const token = localStorage.getItem('authToken');
+            try {
+                const response = await fetch(`/api/admin?action=search&query=${encodeURIComponent(email)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const users = await response.json();
+                    const resultDiv = document.getElementById('userLookupResult');
+                    
+                    if (users.length === 0) {
+                        resultDiv.innerHTML = '<p style="color: #dc3545;">No user found with that email</p>';
+                        document.getElementById('userNotesSection').style.display = 'none';
+                    } else {
+                        const user = users[0];
+                        currentLookupUserId = user._id;
+                        resultDiv.innerHTML = `
+                            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <h4 style="margin-top: 0;">User Information</h4>
+                                <p><strong>Email:</strong> ${user.email}</p>
+                                <p><strong>Plan:</strong> <span class="plan-badge plan-${user.plan}">${user.plan}</span></p>
+                                <p><strong>Registered:</strong> ${new Date(user.createdAt).toLocaleDateString()}</p>
+                                <p><strong>Last Login:</strong> ${user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : 'Never'}</p>
+                            </div>
+                        `;
+                        document.getElementById('notesUserEmail').textContent = user.email;
+                        document.getElementById('userNotesSection').style.display = 'block';
+                        loadUserNotes(user._id);
+                    }
+                }
+            } catch (error) {
+                console.error('Lookup error:', error);
+                alert('Failed to lookup user');
+            }
+        }
+
+        async function loadUserNotes(userId) {
+            const token = localStorage.getItem('authToken');
+            try {
+                const response = await fetch(`/api/admin?action=notes&userId=${userId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const notes = await response.json();
+                    const notesDiv = document.getElementById('notesList');
+                    
+                    if (notes.length === 0) {
+                        notesDiv.innerHTML = '<p style="color: #999;">No notes yet</p>';
+                    } else {
+                        notesDiv.innerHTML = notes.map(note => `
+                            <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #e0e0e0; margin-bottom: 10px;">
+                                <p style="margin: 0 0 10px 0;">${note.note}</p>
+                                <small style="color: #999;">
+                                    By ${note.createdBy} on ${new Date(note.createdAt).toLocaleString()}
+                                </small>
+                            </div>
+                        `).join('');
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading notes:', error);
+            }
+        }
+
+        async function addNote() {
+            const note = document.getElementById('newNote').value.trim();
+            if (!note) {
+                alert('Please enter a note');
+                return;
+            }
+
+            const token = localStorage.getItem('authToken');
+            try {
+                const response = await fetch('/api/admin?action=addNote', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: currentLookupUserId,
+                        note: note
+                    })
+                });
+
+                if (response.ok) {
+                    document.getElementById('newNote').value = '';
+                    loadUserNotes(currentLookupUserId);
+                    alert('Note added successfully!');
+                } else {
+                    alert('Failed to add note');
+                }
+            } catch (error) {
+                console.error('Error adding note:', error);
+                alert('Failed to add note');
+            }
+        }
+
+        // Subscriptions Management
+        async function loadSubscriptions() {
+            document.getElementById('subsLoading').style.display = 'block';
+            const token = localStorage.getItem('authToken');
+            
+            try {
+                const response = await fetch('/api/admin?action=subscriptions', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('activeSubsCount').textContent = data.activeSubscriptions;
+                    document.getElementById('conversionRate').textContent = data.conversionRate + '%';
+                    document.getElementById('upcomingRenewals').textContent = data.upcomingRenewals;
+                    document.getElementById('lifetimeSubs').textContent = data.lifetimeUsers;
+
+                    document.getElementById('subsLoading').style.display = 'none';
+                    
+                    if (data.subscriptions && data.subscriptions.length > 0) {
+                        document.getElementById('subsContainer').style.display = 'block';
+                        const tbody = document.getElementById('subsTableBody');
+                        tbody.innerHTML = data.subscriptions.map(sub => `
+                            <tr>
+                                <td><code>${sub.customer}</code></td>
+                                <td><span style="color: #28a745; font-weight: 600;">${sub.status}</span></td>
+                                <td style="font-weight: 600;">$${sub.amount}</td>
+                                <td>${sub.currentPeriodEnd}</td>
+                                <td>
+                                    <button class="action-btn btn-delete" onclick="confirmCancelSubscription('${sub.id}')">
+                                        Cancel
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    } else {
+                        document.getElementById('noSubs').style.display = 'block';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading subscriptions:', error);
+                document.getElementById('subsLoading').innerHTML = '<p style="color: #dc3545;">Error loading subscriptions</p>';
+            }
+        }
+
+        async function confirmCancelSubscription(subId) {
+            if (!confirm('Are you sure you want to cancel this subscription?')) {
+                return;
+            }
+
+            const reason = prompt('Reason for cancellation (optional):');
+            const token = localStorage.getItem('authToken');
+
+            try {
+                const response = await fetch('/api/admin?action=cancelSubscription', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: subId,
+                        reason: reason
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Subscription cancelled successfully!');
+                    loadSubscriptions();
+                } else {
+                    alert('Failed to cancel subscription');
+                }
+            } catch (error) {
+                console.error('Error cancelling subscription:', error);
+                alert('Failed to cancel subscription');
+            }
+        }
+
+        // Announcements
+        async function sendAnnouncement() {
+            const subject = document.getElementById('emailSubject').value.trim();
+            const message = document.getElementById('emailMessage').value.trim();
+            const targetPlan = document.getElementById('targetPlan').value;
+
+            if (!subject || !message) {
+                alert('Please enter both subject and message');
+                return;
+            }
+
+            if (!confirm(`Send this announcement to ${targetPlan === 'all' ? 'ALL' : targetPlan.toUpperCase()} users?`)) {
+                return;
+            }
+
+            const token = localStorage.getItem('authToken');
+
+            try {
+                const response = await fetch('/api/admin?action=sendEmail', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        subject,
+                        message,
+                        targetPlan
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    alert(`Announcement sent to ${data.recipientCount} users!`);
+                    document.getElementById('emailSubject').value = '';
+                    document.getElementById('emailMessage').value = '';
+                    loadCampaigns();
+                } else {
+                    alert('Failed to send announcement');
+                }
+            } catch (error) {
+                console.error('Error sending announcement:', error);
+                alert('Failed to send announcement');
+            }
+        }
+
+        async function loadCampaigns() {
+            document.getElementById('campaignsLoading').style.display = 'block';
+            const token = localStorage.getItem('authToken');
+
+            try {
+                const response = await fetch('/api/admin?action=campaigns', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const campaigns = await response.json();
+                    document.getElementById('campaignsLoading').style.display = 'none';
+                    
+                    if (campaigns.length === 0) {
+                        document.getElementById('campaignsList').innerHTML = '<p style="color: #999;">No campaigns sent yet</p>';
+                    } else {
+                        document.getElementById('campaignsList').innerHTML = campaigns.map(c => `
+                            <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0; margin-bottom: 15px;">
+                                <h4 style="margin-top: 0;">${c.subject}</h4>
+                                <p style="color: #666;">${c.message.substring(0, 100)}${c.message.length > 100 ? '...' : ''}</p>
+                                <div style="display: flex; gap: 20px; color: #999; font-size: 0.9em;">
+                                    <span>📧 ${c.recipientCount} recipients</span>
+                                    <span>📊 Target: ${c.targetPlan}</span>
+                                    <span>📅 ${new Date(c.sentAt).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading campaigns:', error);
+            }
+        }
+
+        // Update tab switching to load new tabs
+        const originalSwitchTab = switchTab;
+        switchTab = function(tabName) {
+            originalSwitchTab.call(this, tabName);
+            
+            if (tabName === 'subscriptions') {
+                loadSubscriptions();
+            } else if (tabName === 'announcements') {
+                loadCampaigns();
+            } else if (tabName === 'health') {
+                loadHealthStatus();
+            }
+        };
+
+        // System Health Monitor
+        async function loadHealthStatus() {
+            document.getElementById('healthLoading').style.display = 'block';
+            const token = localStorage.getItem('authToken');
+
+            try {
+                const startTime = Date.now();
+                const response = await fetch('/api/admin?action=health', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const requestTime = Date.now() - startTime;
+
+                if (response.ok) {
+                    const health = await response.json();
+                    
+                    // Update status cards
+                    document.getElementById('systemStatus').textContent = health.overall === 'healthy' ? '● Online' : '● Degraded';
+                    document.getElementById('systemStatus').style.color = health.overall === 'healthy' ? '#28a745' : '#ffc107';
+                    
+                    document.getElementById('mongoStatus').innerHTML = health.services.mongodb.status === 'healthy' 
+                        ? '<span style="color: #28a745;">✓ Connected</span>'
+                        : '<span style="color: #dc3545;">✗ Error</span>';
+                    
+                    document.getElementById('stripeStatus').innerHTML = health.services.stripe.status === 'healthy'
+                        ? '<span style="color: #28a745;">✓ Connected</span>'
+                        : '<span style="color: #dc3545;">✗ Error</span>';
+                    
+                    document.getElementById('apiResponseTime').textContent = health.averageResponseTime;
+
+                    // Show endpoints status
+                    document.getElementById('healthLoading').style.display = 'none';
+                    document.getElementById('endpointsStatus').style.display = 'block';
+                    
+                    const endpointsDiv = document.querySelector('#endpointsStatus > div');
+                    endpointsDiv.innerHTML = health.endpoints.map(endpoint => `
+                        <div style="background: white; padding: 20px; border-radius: 8px; border-left: 4px solid ${endpoint.status === 'healthy' ? '#28a745' : '#dc3545'};">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <h4 style="margin: 0 0 5px 0;">${endpoint.name}</h4>
+                                    <code style="color: #666; font-size: 0.9em;">${endpoint.path}</code>
+                                </div>
+                                <div style="text-align: right;">
+                                    <span style="display: inline-block; padding: 5px 15px; background: ${endpoint.status === 'healthy' ? '#d4edda' : '#f8d7da'}; color: ${endpoint.status === 'healthy' ? '#155724' : '#721c24'}; border-radius: 20px; font-weight: 600; font-size: 0.9em;">
+                                        ${endpoint.status === 'healthy' ? '✓ Healthy' : '✗ Down'}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    // Update webhook status
+                    const webhookStatus = document.getElementById('webhookSecretStatus');
+                    if (health.webhook.configured) {
+                        webhookStatus.innerHTML = '<strong style="color: #28a745;">✓ Webhook Secret Configured</strong>';
+                    } else {
+                        webhookStatus.innerHTML = '<strong style="color: #ffc107;">⚠️ Webhook Secret Not Configured</strong><br><small>Set STRIPE_WEBHOOK_SECRET in environment variables</small>';
+                    }
+                }
+            } catch (error) {
+                console.error('Health check error:', error);
+                document.getElementById('healthLoading').innerHTML = '<p style="color: #dc3545;">Failed to load health status</p>';
+            }
+        }
+
+        async function refreshHealthCheck() {
+            loadHealthStatus();
+        }
 
         // Initialize
         if (checkAdminAccess()) {
