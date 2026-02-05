@@ -53,19 +53,127 @@ module.exports = async (req, res) => {
         return;
     }
 
+    try {
+        const client = await connectToDatabase();
+        const db = client.db('jarvis-omega');
+        const action = req.query.action;
+
+        // PUBLIC CHAT ENDPOINTS (no admin auth required)
+        // GET /api/admin?action=getChatMessages&sessionId=xxx - Load chat history for users
+        if (req.method === 'GET' && action === 'getChatMessages') {
+            const { sessionId } = req.query;
+            
+            if (!sessionId) {
+                return res.status(400).json({ error: 'Session ID required' });
+            }
+
+            const chats = db.collection('live_chats');
+            const chat = await chats.findOne({ sessionId });
+            
+            if (!chat) {
+                return res.status(200).json({ messages: [] });
+            }
+
+            return res.status(200).json({
+                messages: chat.messages || [],
+                email: chat.email,
+                page: chat.lastPage
+            });
+        }
+
+        // POST /api/admin?action=sendChatMessagePublic - Send message from user
+        if (req.method === 'POST' && action === 'sendChatMessagePublic') {
+            const { sessionId, email, message, page } = req.body;
+
+            if (!sessionId || !message) {
+                return res.status(400).json({ error: 'Session ID and message required' });
+            }
+
+            const chats = db.collection('live_chats');
+
+            const newMessage = {
+                from: 'user',
+                message: message,
+                timestamp: new Date().toISOString(),
+                read: false
+            };
+
+            // Check if chat session exists
+            const existingChat = await chats.findOne({ sessionId });
+
+            if (existingChat) {
+                await chats.updateOne(
+                    { sessionId },
+                    { 
+                        $push: { messages: newMessage },
+                        $set: { 
+                            lastMessage: new Date(),
+                            lastPage: page,
+                            status: 'active'
+                        }
+                    }
+                );
+            } else {
+                await chats.insertOne({
+                    sessionId,
+                    email: email || 'Anonymous',
+                    messages: [newMessage],
+                    createdAt: new Date(),
+                    lastMessage: new Date(),
+                    lastPage: page,
+                    status: 'active'
+                });
+            }
+
+            // Auto-reply logic
+            let autoReply = null;
+            const lowerMessage = message.toLowerCase();
+
+            if (lowerMessage.includes('pricing') || lowerMessage.includes('price') || lowerMessage.includes('cost')) {
+                autoReply = "You can view our pricing plans at /pricing.html. We offer Pro, Business, and Lifetime plans with different features. Let me know if you have specific questions!";
+            } else if (lowerMessage.includes('plugin') || lowerMessage.includes('download')) {
+                autoReply = "Our Pro members get access to 30+ premium plugins! You can browse them after upgrading to a Pro or Business plan.";
+            } else if (lowerMessage.includes('trial') || lowerMessage.includes('free')) {
+                autoReply = "Every new account starts with a 7-day free trial to test out JARVIS features. No credit card required!";
+            } else if (lowerMessage.includes('help') || lowerMessage.includes('support')) {
+                autoReply = "I'm here to help! A support agent will be with you shortly. In the meantime, you can check our FAQ page for common questions.";
+            } else if (lowerMessage.includes('hi') || lowerMessage.includes('hello') || lowerMessage.includes('hey')) {
+                autoReply = "Hello! Thanks for reaching out. How can I assist you today?";
+            }
+
+            if (autoReply) {
+                await chats.updateOne(
+                    { sessionId },
+                    { 
+                        $push: { 
+                            messages: {
+                                from: 'support',
+                                message: autoReply,
+                                timestamp: new Date().toISOString(),
+                                isAutoReply: true,
+                                read: false
+                            }
+                        }
+                    }
+                );
+            }
+
+            return res.status(200).json({ 
+                success: true,
+                autoReply: autoReply
+            });
+        }
+
+    // ADMIN-ONLY ENDPOINTS (require admin auth)
     // Verify admin access
     const admin = verifyAdmin(req);
     if (!admin) {
         return res.status(403).json({ error: 'Access denied: Admin privileges required' });
     }
 
-    try {
-        const client = await connectToDatabase();
-        const db = client.db('jarvis-omega');
         const users = db.collection('users');
 
         // Route based on query action parameter
-        const action = req.query.action;
 
         // GET /api/admin?action=stats - Get statistics
         if (req.method === 'GET' && action === 'stats') {

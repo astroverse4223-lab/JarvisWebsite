@@ -1600,7 +1600,7 @@
             const token = localStorage.getItem('authToken');
             
             try {
-                const response = await fetch(`/api/chat?sessionId=${sessionId}`);
+                const response = await fetch(`/api/admin?action=getChatMessages&sessionId=${sessionId}`);
                 
                 if (response.ok) {
                     const data = await response.json();

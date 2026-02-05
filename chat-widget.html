@@ -451,7 +451,7 @@
 
         try {
             // Send to server
-            const response = await fetch('/api/chat', {
+            const response = await fetch('/api/admin?action=sendChatMessagePublic', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -529,7 +529,7 @@
 
     async function loadChatHistory() {
         try {
-            const response = await fetch(`/api/chat?sessionId=${chatSessionId}`);
+            const response = await fetch(`/api/admin?action=getChatMessages&sessionId=${chatSessionId}`);
             if (response.ok) {
                 const data = await response.json();
                 if (data.messages && data.messages.length > 0) {
@@ -556,7 +556,7 @@
     let lastMessageCount = 0;
     async function checkForNewMessages() {
         try {
-            const response = await fetch(`/api/chat?sessionId=${chatSessionId}`);
+            const response = await fetch(`/api/admin?action=getChatMessages&sessionId=${chatSessionId}`);
             if (response.ok) {
                 const data = await response.json();
                 const currentCount = data.messages ? data.messages.length : 0;
