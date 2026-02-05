@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "vercel dev",
     "start": "node server.js",
-    "test": "node api/test-stripe-config.js",
     "deploy": "vercel --prod"
   },
   "dependencies": {

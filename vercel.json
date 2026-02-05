@@ -1,12 +1,27 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "jarviswebsite.vercel.app"
+        }
+      ],
+      "destination": "https://jarvisassistant.online/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
     { "source": "/dashboard", "destination": "/dashboard.html" },
     { "source": "/login", "destination": "/login.html" },
     { "source": "/register", "destination": "/register.html" },
     { "source": "/pricing", "destination": "/pricing.html" },
+    { "source": "/plugins", "destination": "/plugins.html" },
+    { "source": "/admin", "destination": "/admin.html" },
     { "source": "/download", "destination": "/download.html" },
     { "source": "/forgot-password", "destination": "/forgot-password.html" },
     { "source": "/reset-password", "destination": "/reset-password.html" },

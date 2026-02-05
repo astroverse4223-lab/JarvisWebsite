@@ -320,3 +320,51 @@ async function sendHeartbeat(token) {
         console.log('Heartbeat error:', error.message);
     }
 }
+
+// Check if user has Pro access and show/hide Plugins link, and Admin link
+function updatePluginsNavVisibility() {
+    const authToken = localStorage.getItem('authToken');
+    const userPlan = localStorage.getItem('userPlan');
+    const isAdmin = localStorage.getItem('isAdmin') === 'true';
+    
+    // Get all Plugins nav links
+    const pluginsLinks = document.querySelectorAll('a[href="plugins.html"], a[href="/plugins"]');
+    
+    if (authToken && (userPlan === 'pro' || userPlan === 'lifetime' || userPlan === 'business')) {
+        // User has Pro access - show Plugins link
+        pluginsLinks.forEach(link => {
+            link.style.display = '';
+        });
+    } else {
+        // User doesn't have Pro - hide Plugins link
+        pluginsLinks.forEach(link => {
+            link.style.display = 'none';
+        });
+    }
+    
+    // Admin link visibility - ONLY for admins
+    const adminLinks = document.querySelectorAll('a[href="admin.html"], a[href="/admin"], a[href="admin"]');
+    if (isAdmin && authToken) {
+        // User IS admin and logged in - show Admin link
+        adminLinks.forEach(link => {
+            link.style.display = '';
+        });
+    } else {
+        // User is NOT admin - force hide Admin link
+        adminLinks.forEach(link => {
+            link.style.display = 'none';
+        });
+    }
+}
+
+// Run on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updatePluginsNavVisibility();
+});
+
+// Also update when storage changes (for multi-tab scenarios)
+window.addEventListener('storage', function(e) {
+    if (e.key === 'userPlan' || e.key === 'authToken' || e.key === 'isAdmin') {
+        updatePluginsNavVisibility();
+    }
+});

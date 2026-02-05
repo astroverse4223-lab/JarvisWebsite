@@ -4,6 +4,7 @@
     <!-- Cache bust: v2 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://jarvisassistant.online/" />
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -104,6 +105,58 @@
             box-shadow: 0 20px 40px rgba(255, 51, 51, 0.3);
         }
         
+        /* Social Proof Notifications */
+        .social-proof {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: linear-gradient(135deg, rgba(20, 20, 40, 0.98), rgba(30, 30, 50, 0.98));
+            border: 1px solid rgba(255, 51, 51, 0.4);
+            border-radius: 15px;
+            padding: 15px 20px;
+            max-width: 350px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: translateX(-400px);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+        }
+        
+        .social-proof.show {
+            transform: translateX(0);
+        }
+        
+        .social-proof-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .social-proof-icon {
+            font-size: 1.5rem;
+        }
+        
+        .social-proof-text {
+            flex: 1;
+        }
+        
+        .social-proof-name {
+            font-weight: 600;
+            color: #ff3333;
+            font-size: 0.95rem;
+        }
+        
+        .social-proof-action {
+            color: #ccc;
+            font-size: 0.85rem;
+        }
+        
+        .social-proof-time {
+            color: #666;
+            font-size: 0.75rem;
+            margin-top: 5px;
+        }
+        
         .stat-icon-home {
             font-size: 3rem;
             margin-bottom: 15px;
@@ -154,6 +207,8 @@
             <div class="nav-links">
                 <a href="#features">Features</a>
                 <a href="pricing.html">Pricing</a>
+                <a href="plugins.html">Plugins</a>
+                <a href="admin.html" style="display: none;">Admin</a>
                 <a href="#faq">FAQ</a>
                 <a href="/download" class="btn-download">Download</a>
                 <div class="user-profile" id="userProfile" style="display: none;">
@@ -388,6 +443,18 @@
         </div>
     </section>
 
+    <!-- Social Proof Notification -->
+    <div class="social-proof" id="socialProof">
+        <div class="social-proof-header">
+            <span class="social-proof-icon">✅</span>
+            <div class="social-proof-text">
+                <div class="social-proof-name" id="proofName">John D.</div>
+                <div class="social-proof-action" id="proofAction">Just downloaded JARVIS Omega</div>
+            </div>
+        </div>
+        <div class="social-proof-time" id="proofTime">2 minutes ago</div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -426,11 +493,7 @@
         // Logout function
         function logoutUser() {
             if (confirm('Are you sure you want to logout?')) {
-                localStorage.removeItem('authToken');
-                localStorage.removeItem('userName');
-                localStorage.removeItem('userEmail');
-                localStorage.removeItem('userPlan');
-                localStorage.removeItem('userDevices');
+                localStorage.clear(); // Clear everything including isAdmin
                 window.location.href = '/register';
             }
         }
@@ -499,11 +562,50 @@
             }, 16);
         }
         
+        // Social proof notifications
+        const socialProofData = [
+            { name: 'Alex M.', action: 'Just downloaded JARVIS Omega', time: '2 minutes ago' },
+            { name: 'Sarah K.', action: 'Subscribed to Pro Plan', time: '5 minutes ago' },
+            { name: 'Mike R.', action: 'Started using voice commands', time: '8 minutes ago' },
+            { name: 'Emily T.', action: 'Just downloaded JARVIS Omega', time: '12 minutes ago' },
+            { name: 'David L.', action: 'Upgraded to Premium', time: '15 minutes ago' },
+            { name: 'Jessica P.', action: 'Just downloaded JARVIS Omega', time: '18 minutes ago' },
+            { name: 'Chris B.', action: 'Activated license key', time: '22 minutes ago' },
+            { name: 'Amanda W.', action: 'Just downloaded JARVIS Omega', time: '25 minutes ago' },
+            { name: 'Robert T.', action: 'Completed setup wizard', time: '30 minutes ago' },
+            { name: 'Linda H.', action: 'Just downloaded JARVIS Omega', time: '35 minutes ago' }
+        ];
+        
+        let currentProofIndex = 0;
+        
+        function showSocialProof() {
+            const proofElement = document.getElementById('socialProof');
+            const proof = socialProofData[currentProofIndex];
+            
+            document.getElementById('proofName').textContent = proof.name;
+            document.getElementById('proofAction').textContent = proof.action;
+            document.getElementById('proofTime').textContent = proof.time;
+            
+            proofElement.classList.add('show');
+            
+            setTimeout(() => {
+                proofElement.classList.remove('show');
+            }, 5000);
+            
+            currentProofIndex = (currentProofIndex + 1) % socialProofData.length;
+        }
+        
         // Load stats on page load
         window.addEventListener('load', () => {
             loadHomeStats();
             // Update stats every 30 seconds
             setInterval(loadHomeStats, 30000);
+            
+            // Show first social proof after 3 seconds
+            setTimeout(showSocialProof, 3000);
+            
+            // Show social proof every 20 seconds
+            setInterval(showSocialProof, 20000);
         });
         
         // Redirect to register page if not logged in

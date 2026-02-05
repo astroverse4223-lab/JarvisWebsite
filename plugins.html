@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://jarvisassistant.online/plugins" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.ico">
+    <title>Plugin Marketplace - JARVIS Omega</title>
+    <meta name="description" content="Extend JARVIS Omega with powerful plugins. Browse official and community plugins.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .plugins-hero {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 150px 20px 80px;
+            text-align: center;
+        }
+        
+        .plugins-hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ff3333, #ff6666);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+        
+        .plugins-hero p {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 30px auto;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            background: rgba(30, 30, 45, 0.8);
+            border: 2px solid rgba(255, 51, 51, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #ff3333;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 10px 25px;
+            background: rgba(30, 30, 45, 0.6);
+            border: 2px solid rgba(255, 51, 51, 0.3);
+            border-radius: 25px;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-tab:hover,
+        .filter-tab.active {
+            background: rgba(255, 51, 51, 0.2);
+            border-color: #ff3333;
+            color: #ff3333;
+        }
+
+        .plugins-container {
+            max-width: 1400px;
+            margin: 60px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .plugin-card {
+            background: linear-gradient(135deg, rgba(20, 20, 30, 0.95), rgba(30, 30, 45, 0.95));
+            border: 2px solid rgba(255, 51, 51, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .plugin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 51, 51, 0.3);
+            border-color: rgba(255, 51, 51, 0.6);
+        }
+
+        .plugin-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .plugin-badge.official {
+            background: linear-gradient(135deg, #00ff66, #00cc52);
+            color: #000;
+        }
+
+        .plugin-badge.pro {
+            background: linear-gradient(135deg, #ff3333, #ff6666);
+            color: white;
+        }
+
+        .plugin-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff3333, #ff6666);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .plugin-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .plugin-author {
+            font-family: 'Rajdhani', sans-serif;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .plugin-description {
+            font-family: 'Rajdhani', sans-serif;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .plugin-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .plugin-stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .plugin-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .plugin-tag {
+            padding: 4px 12px;
+            background: rgba(255, 51, 51, 0.1);
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            border-radius: 12px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .plugin-button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff3333, #ff6666);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .plugin-button:hover {
+            box-shadow: 0 5px 20px rgba(255, 51, 51, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .plugin-button:disabled {
+            background: rgba(100, 100, 100, 0.3);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .pro-required {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 51, 51, 0.1);
+            border: 2px solid rgba(255, 51, 51, 0.3);
+            border-radius: 15px;
+            margin: 40px 20px;
+        }
+
+        .pro-required h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: #ff3333;
+            margin-bottom: 15px;
+        }
+
+        .pro-required p {
+            font-family: 'Rajdhani', sans-serif;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .upgrade-button {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #ff3333, #ff6666);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .upgrade-button:hover {
+            box-shadow: 0 8px 30px rgba(255, 51, 51, 0.6);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <canvas id="particles"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">◢◤</span>
+                <span class="logo-text">JARVIS<span class="omega">OMEGA</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#features">Features</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="plugins.html" class="active">Plugins</a>
+                <a href="admin.html" style="display: none;">Admin</a>
+                <a href="/download" class="btn-download">Download</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Plugins Hero -->
+    <section class="plugins-hero">
+        <div>
+            <h1>Plugin Marketplace</h1>
+            <p>Supercharge JARVIS Omega with powerful plugins. Automation, productivity, entertainment, and more.</p>
+            
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" id="plugin-search" placeholder="Search plugins...">
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <div class="filter-tab active" data-category="all">All Plugins</div>
+                <div class="filter-tab" data-category="productivity">Productivity</div>
+                <div class="filter-tab" data-category="automation">Automation</div>
+                <div class="filter-tab" data-category="entertainment">Entertainment</div>
+                <div class="filter-tab" data-category="utilities">Utilities</div>
+                <div class="filter-tab" data-category="integration">Integrations</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pro Required Notice (hidden by default) -->
+    <div class="pro-required" id="pro-notice" style="display: none;">
+        <h3>🔒 Pro Membership Required</h3>
+        <p>Access the full plugin marketplace with a JARVIS Omega Pro subscription.</p>
+        <a href="pricing.html" class="upgrade-button">Upgrade to Pro</a>
+    </div>
+
+    <!-- Plugins Grid -->
+    <section class="plugins-container" id="plugins-grid">
+        <!-- Plugins will be loaded dynamically -->
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: rgba(20,20,30,0.95); padding: 60px 20px; text-align: center; border-top: 1px solid rgba(255,51,51,0.2); margin-top: 80px;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="logo" style="margin-bottom: 20px;">
+                <span class="logo-icon">◢◤</span>
+                <span class="logo-text">JARVIS<span class="omega">OMEGA</span></span>
+            </div>
+            <p style="color: rgba(255,255,255,0.6); margin-bottom: 30px; font-family: 'Rajdhani', sans-serif;">
+                Advanced AI Voice Assistant for Windows
+            </p>
+            <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-bottom: 30px; font-family: 'Rajdhani', sans-serif;">
+                <a href="index.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Home</a>
+                <a href="pricing.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Pricing</a>
+                <a href="plugins.html" style="color: rgba(255,255,255,0.7); text-decoration: none;">Plugins</a>
+                <a href="/download" style="color: rgba(255,255,255,0.7); text-decoration: none;">Download</a>
+            </div>
+            <p style="color: rgba(255,255,255,0.4); font-size: 0.9rem; font-family: 'Rajdhani', sans-serif;">
+                © 2026 JARVIS Omega. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Plugin catalog data - 30 Plugins
+        const plugins = [
+            // Entertainment Plugins
+            {
+                id: 'spotify-control',
+                name: 'Spotify Controller',
+                author: 'JARVIS Team',
+                icon: '🎵',
+                description: 'Control Spotify with voice commands. Play, pause, skip, search for songs, and create playlists hands-free.',
+                category: 'entertainment',
+                tags: ['Music', 'Spotify', 'Voice Control'],
+                downloads: 15234,
+                rating: 4.8,
+                official: true,
+                pro: true,
+                version: '1.2.0'
+            },
+            {
+                id: 'email-assistant',
+                name: 'Email Assistant',
+                author: 'JARVIS Team',
+                icon: '📧',
+                description: 'Compose, send, and read emails with voice commands. Supports Gmail, Outlook, and custom SMTP.',
+                category: 'productivity',
+                tags: ['Email', 'Productivity', 'Gmail'],
+                downloads: 12845,
+                rating: 4.7,
+                official: true,
+                pro: true,
+                version: '2.0.1'
+            },
+            {
+                id: 'calendar-sync',
+                name: 'Calendar Integration',
+                author: 'JARVIS Team',
+                icon: '📅',
+                description: 'Manage your calendar with voice. Create events, check schedule, get meeting reminders.',
+                category: 'productivity',
+                tags: ['Calendar', 'Google Calendar', 'Scheduling'],
+                downloads: 10932,
+                rating: 4.9,
+                official: true,
+                pro: true,
+                version: '1.5.0'
+            },
+            {
+                id: 'smart-home',
+                name: 'Smart Home Hub',
+                author: 'JARVIS Team',
+                icon: '🏠',
+                description: 'Control smart home devices via voice. Compatible with Philips Hue, TP-Link, and more.',
+                category: 'automation',
+                tags: ['Smart Home', 'IoT', 'Automation'],
+                downloads: 9821,
+                rating: 4.6,
+                official: true,
+                pro: true,
+                version: '1.3.2'
+            },
+            {
+                id: 'task-manager',
+                name: 'Task Manager Pro',
+                author: 'JARVIS Team',
+                icon: '✅',
+                description: 'Voice-activated task management. Create tasks, set reminders, and track your productivity.',
+                category: 'productivity',
+                tags: ['Tasks', 'To-Do', 'Productivity'],
+                downloads: 8743,
+                rating: 4.7,
+                official: true,
+                pro: true,
+                version: '1.1.0'
+            },
+            {
+                id: 'weather-advanced',
+                name: 'Advanced Weather',
+                author: 'JARVIS Team',
+                icon: '🌤️',
+                description: 'Detailed weather forecasts, severe weather alerts, and hourly predictions for any location.',
+                category: 'utilities',
+                tags: ['Weather', 'Forecast', 'Alerts'],
+                downloads: 7654,
+                rating: 4.5,
+                official: true,
+                pro: true,
+                version: '1.0.5'
+            },
+            {
+                id: 'code-assistant',
+                name: 'Code Assistant',
+                author: 'JARVIS Team',
+                icon: '💻',
+                description: 'Voice-controlled coding assistant. Generate code snippets, debug, and search documentation.',
+                category: 'productivity',
+                tags: ['Coding', 'Development', 'Programming'],
+                downloads: 6543,
+                rating: 4.8,
+                official: true,
+                pro: true,
+                version: '1.4.0'
+            },
+            {
+                id: 'translation',
+                name: 'Language Translator',
+                author: 'JARVIS Team',
+                icon: '🌍',
+                description: 'Real-time voice translation supporting 100+ languages. Perfect for international communication.',
+                category: 'utilities',
+                tags: ['Translation', 'Languages', 'International'],
+                downloads: 5432,
+                rating: 4.6,
+                official: true,
+                pro: true,
+                version: '1.2.3'
+            },
+            {
+                id: 'news-reader',
+                name: 'Smart News Reader',
+                author: 'JARVIS Team',
+                icon: '📰',
+                description: 'Get personalized news summaries read aloud. Customizable sources and categories.',
+                category: 'entertainment',
+                tags: ['News', 'Reading', 'Information'],
+                downloads: 4321,
+                rating: 4.4,
+                official: true,
+                pro: true,
+                version: '1.0.8'
+            },
+            {
+                id: 'workout-coach',
+                name: 'Workout Coach',
+                author: 'Community',
+                icon: '💪',
+                description: 'Voice-guided workout sessions with custom routines, rep counting, and rest timers.',
+                category: 'entertainment',
+                tags: ['Fitness', 'Health', 'Exercise'],
+                downloads: 3210,
+                rating: 4.7,
+                official: false,
+                pro: true,
+                version: '1.1.2'
+            },
+            {
+                id: 'recipe-finder',
+                name: 'Recipe Finder',
+                author: 'Community',
+                icon: '🍳',
+                description: 'Find recipes by voice, get cooking instructions read step-by-step while you cook.',
+                category: 'utilities',
+                tags: ['Cooking', 'Recipes', 'Food'],
+                downloads: 2987,
+                rating: 4.5,
+                official: false,
+                pro: true,
+                version: '1.0.3'
+            },
+            {
+                id: 'github-integration',
+                name: 'GitHub Manager',
+                author: 'Community',
+                icon: '🐙',
+                description: 'Manage GitHub repos, issues, and PRs with voice commands. Check notifications and stats.',
+                category: 'integration',
+                tags: ['GitHub', 'Development', 'Git'],
+                downloads: 2765,
+                rating: 4.8,
+                official: false,
+                pro: true,
+                version: '1.3.0'
+            },
+            {
+                id: 'pomodoro-timer',
+                name: 'Pomodoro Timer',
+                author: 'Community',
+                icon: '⏱️',
+                description: 'Voice-controlled Pomodoro technique timer with custom intervals and break reminders.',
+                category: 'productivity',
+                tags: ['Timer', 'Productivity', 'Focus'],
+                downloads: 2543,
+                rating: 4.6,
+                official: false,
+                pro: true,
+                version: '1.0.0'
+            },
+            {
+                id: 'crypto-tracker',
+                name: 'Crypto Price Tracker',
+                author: 'Community',
+                icon: '₿',
+                description: 'Track cryptocurrency prices in real-time. Set price alerts and get market updates.',
+                category: 'utilities',
+                tags: ['Crypto', 'Bitcoin', 'Finance'],
+                downloads: 2321,
+                rating: 4.4,
+                official: false,
+                pro: true,
+                version: '1.1.5'
+            },
+            {
+                id: 'meditation-guide',
+                name: 'Meditation Guide',
+                author: 'Community',
+                icon: '🧘',
+                description: 'Guided meditation sessions with voice prompts, breathing exercises, and ambient sounds.',
+                category: 'entertainment',
+                tags: ['Meditation', 'Wellness', 'Relaxation'],
+                downloads: 2098,
+                rating: 4.9,
+                official: false,
+                pro: true,
+                version: '1.0.7'
+            },
+            {
+                id: 'window-manager',
+                name: 'Window Manager',
+                author: 'Community',
+                icon: '🪟',
+                description: 'Control and arrange windows with voice commands. Maximize, minimize, snap, and switch apps.',
+                category: 'utilities',
+                tags: ['Windows', 'Productivity', 'Management'],
+                downloads: 1876,
+                rating: 4.5,
+                official: false,
+                pro: true,
+                version: '1.2.1'
+            },
+            // Additional 14 Plugins
+            {
+                id: 'youtube-controller',
+                name: 'YouTube Voice Control',
+                author: 'JARVIS Team',
+                icon: '📺',
+                description: 'Control YouTube playback, search videos, manage playlists, and navigate channels with voice.',
+                category: 'entertainment',
+                tags: ['YouTube', 'Video', 'Streaming'],
+                downloads: 8932,
+                rating: 4.7,
+                official: true,
+                pro: true,
+                version: '1.4.2'
+            },
+            {
+                id: 'file-organizer',
+                name: 'Smart File Organizer',
+                author: 'JARVIS Team',
+                icon: '📁',
+                description: 'Organize files automatically by type, date, or custom rules. Find files instantly with voice.',
+                category: 'productivity',
+                tags: ['Files', 'Organization', 'Search'],
+                downloads: 7234,
+                rating: 4.6,
+                official: true,
+                pro: true,
+                version: '2.1.0'
+            },
+            {
+                id: 'browser-automation',
+                name: 'Browser Automation',
+                author: 'JARVIS Team',
+                icon: '🌐',
+                description: 'Navigate web pages, fill forms, and automate browsing tasks with voice commands.',
+                category: 'automation',
+                tags: ['Browser', 'Web', 'Automation'],
+                downloads: 6543,
+                rating: 4.5,
+                official: true,
+                pro: true,
+                version: '1.3.1'
+            },
+            {
+                id: 'screenshot-tool',
+                name: 'Screenshot Master',
+                author: 'Community',
+                icon: '📸',
+                description: 'Take screenshots, screen recordings, and annotate images with voice commands.',
+                category: 'utilities',
+                tags: ['Screenshots', 'Recording', 'Images'],
+                downloads: 5876,
+                rating: 4.8,
+                official: false,
+                pro: true,
+                version: '1.0.9'
+            },
+            {
+                id: 'notes-dictation',
+                name: 'Voice Notes Pro',
+                author: 'JARVIS Team',
+                icon: '📝',
+                description: 'Dictate notes, create documents, and manage your ideas with advanced voice recognition.',
+                category: 'productivity',
+                tags: ['Notes', 'Dictation', 'Writing'],
+                downloads: 9123,
+                rating: 4.9,
+                official: true,
+                pro: true,
+                version: '2.3.0'
+            },
+            {
+                id: 'system-monitor',
+                name: 'System Monitor Pro',
+                author: 'JARVIS Team',
+                icon: '⚙️',
+                description: 'Monitor CPU, RAM, disk usage, and system performance with voice-activated alerts.',
+                category: 'utilities',
+                tags: ['System', 'Monitoring', 'Performance'],
+                downloads: 4567,
+                rating: 4.4,
+                official: true,
+                pro: true,
+                version: '1.5.3'
+            },
+            {
+                id: 'meeting-assistant',
+                name: 'Meeting Assistant',
+                author: 'JARVIS Team',
+                icon: '👔',
+                description: 'Join Zoom/Teams meetings, take notes, and manage your conference calls hands-free.',
+                category: 'productivity',
+                tags: ['Meetings', 'Zoom', 'Teams'],
+                downloads: 7890,
+                rating: 4.7,
+                official: true,
+                pro: true,
+                version: '1.6.0'
+            },
+            {
+                id: 'password-manager',
+                name: 'Password Vault',
+                author: 'Community',
+                icon: '🔐',
+                description: 'Securely manage passwords and auto-fill login forms with voice authentication.',
+                category: 'utilities',
+                tags: ['Security', 'Passwords', 'Privacy'],
+                downloads: 6234,
+                rating: 4.8,
+                official: false,
+                pro: true,
+                version: '1.1.4'
+            },
+            {
+                id: 'clipboard-manager',
+                name: 'Clipboard History',
+                author: 'Community',
+                icon: '📋',
+                description: 'Access clipboard history, manage copied items, and paste with voice commands.',
+                category: 'productivity',
+                tags: ['Clipboard', 'Copy', 'Paste'],
+                downloads: 5432,
+                rating: 4.6,
+                official: false,
+                pro: true,
+                version: '1.0.6'
+            },
+            {
+                id: 'focus-mode',
+                name: 'Focus Mode',
+                author: 'JARVIS Team',
+                icon: '🎯',
+                description: 'Block distractions, manage work sessions, and boost productivity with voice-activated focus.',
+                category: 'productivity',
+                tags: ['Focus', 'Productivity', 'Wellness'],
+                downloads: 4890,
+                rating: 4.9,
+                official: true,
+                pro: true,
+                version: '1.2.2'
+            },
+            {
+                id: 'voice-commands-custom',
+                name: 'Custom Command Builder',
+                author: 'JARVIS Team',
+                icon: '🛠️',
+                description: 'Create complex custom voice commands with variables, conditionals, and automation.',
+                category: 'automation',
+                tags: ['Custom', 'Advanced', 'Scripting'],
+                downloads: 3456,
+                rating: 4.7,
+                official: true,
+                pro: true,
+                version: '2.0.0'
+            },
+            {
+                id: 'social-media-poster',
+                name: 'Social Media Manager',
+                author: 'Community',
+                icon: '📱',
+                description: 'Post to Twitter, LinkedIn, Facebook with voice. Schedule posts and manage social presence.',
+                category: 'integration',
+                tags: ['Social Media', 'Twitter', 'LinkedIn'],
+                downloads: 4123,
+                rating: 4.5,
+                official: false,
+                pro: true,
+                version: '1.3.5'
+            },
+            {
+                id: 'expense-tracker',
+                name: 'Expense Tracker',
+                author: 'Community',
+                icon: '💰',
+                description: 'Track expenses, manage budgets, and generate financial reports with voice logging.',
+                category: 'productivity',
+                tags: ['Finance', 'Budget', 'Money'],
+                downloads: 3789,
+                rating: 4.6,
+                official: false,
+                pro: true,
+                version: '1.1.8'
+            },
+            {
+                id: 'alarm-reminder',
+                name: 'Smart Alarms & Reminders',
+                author: 'JARVIS Team',
+                icon: '⏰',
+                description: 'Set alarms, recurring reminders, and location-based notifications with natural voice.',
+                category: 'utilities',
+                tags: ['Alarms', 'Reminders', 'Time'],
+                downloads: 8123,
+                rating: 4.8,
+                official: true,
+                pro: true,
+                version: '1.4.3'
+            }
+        ];
+
+        // Check if user has Pro access
+        function checkProAccess() {
+            // This will be replaced with actual authentication check
+            const authToken = localStorage.getItem('authToken');
+            const userPlan = localStorage.getItem('userPlan');
+            
+            // For now, check if user is logged in and has Pro
+            return authToken && (userPlan === 'pro' || userPlan === 'lifetime');
+        }
+
+        // Render plugins
+        function renderPlugins(filteredPlugins = plugins) {
+            const grid = document.getElementById('plugins-grid');
+            const hasPro = checkProAccess();
+            
+            if (!hasPro) {
+                document.getElementById('pro-notice').style.display = 'block';
+            }
+            
+            grid.innerHTML = filteredPlugins.map(plugin => `
+                <div class="plugin-card" data-category="${plugin.category}">
+                    ${plugin.official ? '<div class="plugin-badge official">Official</div>' : ''}
+                    ${plugin.pro ? `<div class="plugin-badge pro" style="top: ${plugin.official ? '50px' : '15px'}">Pro</div>` : ''}
+                    
+                    <div class="plugin-icon">${plugin.icon}</div>
+                    <div class="plugin-name">${plugin.name}</div>
+                    <div class="plugin-author">by ${plugin.author}</div>
+                    <div class="plugin-description">${plugin.description}</div>
+                    
+                    <div class="plugin-stats">
+                        <div class="plugin-stat">
+                            <span>⭐</span>
+                            <span>${plugin.rating}</span>
+                        </div>
+                        <div class="plugin-stat">
+                            <span>⬇️</span>
+                            <span>${(plugin.downloads / 1000).toFixed(1)}k</span>
+                        </div>
+                        <div class="plugin-stat">
+                            <span>v${plugin.version}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="plugin-tags">
+                        ${plugin.tags.map(tag => `<span class="plugin-tag">${tag}</span>`).join('')}
+                    </div>
+                    
+                    <button class="plugin-button" 
+                            onclick="downloadPlugin('${plugin.id}')"
+                            ${!hasPro && plugin.pro ? 'disabled' : ''}>
+                        ${hasPro ? 'Download Plugin' : '🔒 Pro Required'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Filter plugins
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                const category = this.dataset.category;
+                const filtered = category === 'all' 
+                    ? plugins 
+                    : plugins.filter(p => p.category === category);
+                
+                renderPlugins(filtered);
+            });
+        });
+
+        // Search plugins
+        document.getElementById('plugin-search').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            const filtered = plugins.filter(p => 
+                p.name.toLowerCase().includes(query) ||
+                p.description.toLowerCase().includes(query) ||
+                p.tags.some(tag => tag.toLowerCase().includes(query))
+            );
+            renderPlugins(filtered);
+        });
+
+        // Download plugin
+        async function downloadPlugin(pluginId) {
+            const plugin = plugins.find(p => p.id === pluginId);
+            if (!plugin) return;
+
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                alert('Please log in to download plugins.');
+                window.location.href = '/login';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/download/plugin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ pluginId })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Download the plugin file
+                    window.location.href = data.downloadUrl;
+                    alert(`${plugin.name} downloaded! Install it from JARVIS Settings > Plugins.`);
+                } else {
+                    throw new Error(data.error || 'Download failed');
+                }
+            } catch (error) {
+                console.error('Plugin download error:', error);
+                alert('Failed to download plugin: ' + error.message);
+            }
+        }
+
+        // Initialize
+        renderPlugins();
+    </script>
+</body>
+</html>

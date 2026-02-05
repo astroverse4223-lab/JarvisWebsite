@@ -95,31 +95,39 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  // Serve static files from public directory
-  let filePath = path.join(__dirname, 'public', pathname === '/' ? 'index.html' : pathname);
+  // Serve static files - try root directory first, then public directory
+  let filePath = path.join(__dirname, pathname === '/' ? 'index.html' : pathname);
   
-  // Check if file exists
+  // Check if file exists in root
   fs.access(filePath, fs.constants.F_OK, (err) => {
     if (err) {
-      // File not found
-      res.writeHead(404, { 'Content-Type': 'text/html' });
-      res.end('<h1>404 Not Found</h1>');
-      return;
+      // Try public directory
+      filePath = path.join(__dirname, 'public', pathname === '/' ? 'index.html' : pathname);
     }
-
-    // Read and serve file
-    fs.readFile(filePath, (err, content) => {
+    
+    // Check if file exists
+    fs.access(filePath, fs.constants.F_OK, (err) => {
       if (err) {
-        res.writeHead(500);
-        res.end('Server Error');
+        // File not found
+        res.writeHead(404, { 'Content-Type': 'text/html' });
+        res.end('<h1>404 Not Found</h1>');
         return;
       }
 
-      const ext = path.extname(filePath);
-      const contentType = mimeTypes[ext] || 'text/plain';
+      // Read and serve file
+      fs.readFile(filePath, (err, content) => {
+        if (err) {
+          res.writeHead(500);
+          res.end('Server Error');
+          return;
+        }
 
-      res.writeHead(200, { 'Content-Type': contentType });
-      res.end(content);
+        const ext = path.extname(filePath);
+        const contentType = mimeTypes[ext] || 'text/plain';
+
+        res.writeHead(200, { 'Content-Type': contentType });
+        res.end(content);
+      });
     });
   });
 });

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://jarvisassistant.online/pricing" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="alternate icon" href="favicon.ico">
     <title>Pricing - JARVIS Omega</title>
@@ -13,6 +14,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Stripe.js -->
     <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        // Redirect to register page if not logged in
+        window.addEventListener('DOMContentLoaded', function() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                // User is not logged in, redirect to register page
+                window.location.href = '/register';
+            }
+        });
+    </script>
     <style>
         .pricing-hero {
             min-height: 50vh;
@@ -393,6 +404,8 @@
                 <a href="index.html">Home</a>
                 <a href="index.html#features">Features</a>
                 <a href="pricing.html" class="active">Pricing</a>
+                <a href="plugins.html">Plugins</a>
+                <a href="admin.html" style="display: none;">Admin</a>
                 <a href="/download" class="btn-download">Download</a>
             </div>
         </div>
@@ -466,7 +479,6 @@
                 <li>Advanced automation</li>
                 <li>Plugin marketplace access</li>
                 <li>Early access to new features</li>
-                <li>Remove JARVIS branding</li>
             </ul>
             <button class="plan-button primary" onclick="checkout('pro', document.getElementById('billing-toggle').classList.contains('yearly'), this)">Start Pro Trial</button>
             <p style="text-align: center; color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-top: 10px;">3-day free trial, cancel anytime</p>

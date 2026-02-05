@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://jarvisassistant.online/login" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="alternate icon" href="favicon.ico">
     <title>Login - JARVIS Omega</title>
@@ -178,6 +179,7 @@
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="pricing.html">Pricing</a>
+                <a href="plugins.html">Plugins</a>
                 <a href="register.html" class="btn-download">Sign Up</a>
             </div>
         </div>
@@ -258,11 +260,22 @@
                 const data = await response.json();
                 
                 if (response.ok) {
+                    // Clear any old data first
+                    localStorage.clear();
+                    
                     // Store token
                     localStorage.setItem('authToken', data.token);
                     localStorage.setItem('userEmail', data.user.email);
                     localStorage.setItem('userName', data.user.name);
                     localStorage.setItem('userPlan', data.user.plan);
+                    
+                    // CRITICAL: Explicitly set isAdmin (must be string 'true' or 'false')
+                    if (data.user.isAdmin === true) {
+                        localStorage.setItem('isAdmin', 'true');
+                    } else {
+                        localStorage.setItem('isAdmin', 'false');
+                    }
+                    
                     if (data.user.trialExpiresAt) {
                         localStorage.setItem('trialExpiresAt', data.user.trialExpiresAt);
                     }

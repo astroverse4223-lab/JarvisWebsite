@@ -49,6 +49,12 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: 'Email and password are required' });
         }
         
+        // Check if MongoDB URI is configured
+        if (!uri) {
+            console.error('MONGODB_URI is not configured');
+            return res.status(500).json({ error: 'Database not configured. Please contact support.' });
+        }
+        
         // Connect to database
         const client = await connectToDatabase();
         const db = client.db('jarvis-omega');
@@ -66,12 +72,16 @@ module.exports = async (req, res) => {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
         
+        // Check if user is admin
+        const isAdmin = user.email === 'countryboya20@gmail.com' || user.isAdmin === true;
+        
         // Generate JWT token
         const token = jwt.sign(
             { 
                 userId: user._id,
                 email: user.email,
-                plan: user.plan
+                plan: user.plan,
+                isAdmin: isAdmin
             },
             JWT_SECRET,
             { expiresIn: '30d' }
@@ -96,6 +106,7 @@ module.exports = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 plan: user.plan,
+                isAdmin: isAdmin,
                 trialExpiresAt: user.trialExpiresAt,
                 devices: user.devices || [],
                 maxDevices: user.maxDevices || 1
@@ -104,6 +115,14 @@ module.exports = async (req, res) => {
         
     } catch (error) {
         console.error('Login error:', error);
-        return res.status(500).json({ error: 'Server error during login' });
+        console.error('Error stack:', error.stack);
+        console.error('Error message:', error.message);
+        
+        // Return more specific error info (remove in production)
+        return res.status(500).json({ 
+            error: 'Server error during login',
+            details: error.message,
+            hint: 'Check Vercel logs for details'
+        });
     }
 };
