@@ -146,10 +146,12 @@
             minute: '2-digit' 
         });
 
+        const textColor = data.from === 'user' ? 'white' : '#333';
+
         messageDiv.innerHTML = `
             <div class="message-avatar">${data.from === 'user' ? '👤' : '🤖'}</div>
             <div class="message-content">
-                <div class="message-bubble">${escapeHtml(data.message)}</div>
+                <div class="message-bubble" style="color: ${textColor};">${escapeHtml(data.message)}</div>
                 <div class="message-time">${time}</div>
             </div>
         `;
