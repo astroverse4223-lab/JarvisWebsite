@@ -316,66 +316,169 @@
             <p>Manage users, plans, and monitor website statistics</p>
         </div>
 
-        <!-- Statistics Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3 id="totalUsers">-</h3>
-                <p>Total Users</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="proUsers">-</h3>
-                <p>Pro Members</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="trialUsers">-</h3>
-                <p>Trial Users</p>
-            </div>
-            <div class="stat-card">
-                <h3 id="lifetimeUsers">-</h3>
-                <p>Lifetime Members</p>
+        <!-- Tab Navigation -->
+        <div class="tab-navigation" style="display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap;">
+            <button class="tab-btn active" onclick="switchTab('overview')" style="padding: 12px 25px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                📊 Overview
+            </button>
+            <button class="tab-btn" onclick="switchTab('revenue')" style="padding: 12px 25px; background: rgba(102, 126, 234, 0.1); color: #667eea; border: 2px solid #667eea; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                💰 Revenue
+            </button>
+            <button class="tab-btn" onclick="switchTab('plugins')" style="padding: 12px 25px; background: rgba(102, 126, 234, 0.1); color: #667eea; border: 2px solid #667eea; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                🔌 Plugins
+            </button>
+            <button class="tab-btn" onclick="switchTab('users')" style="padding: 12px 25px; background: rgba(102, 126, 234, 0.1); color: #667eea; border: 2px solid #667eea; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s;">
+                👥 Users
+            </button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overviewTab" class="tab-content">
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="totalUsers">-</h3>
+                    <p>Total Users</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="proUsers">-</h3>
+                    <p>Pro Members</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="trialUsers">-</h3>
+                    <p>Trial Users</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="lifetimeUsers">-</h3>
+                    <p>Lifetime Members</p>
+                </div>
             </div>
         </div>
 
-        <!-- Users Management Section -->
-        <div class="users-section">
-            <div class="users-header">
-                <h2 style="margin: 0;">User Management</h2>
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search by email or name...">
+        <!-- Revenue Tab -->
+        <div id="revenueTab" class="tab-content" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="totalRevenue" style="color: #28a745;">$-</h3>
+                    <p>Total Revenue (90 Days)</p>
                 </div>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="free">Free</button>
-                    <button class="filter-btn" data-filter="trial">Trial</button>
-                    <button class="filter-btn" data-filter="pro">Pro</button>
-                    <button class="filter-btn" data-filter="lifetime">Lifetime</button>
-                    <button class="filter-btn" data-filter="business">Business</button>
+                <div class="stat-card">
+                    <h3 id="monthRevenue" style="color: #17a2b8;">$-</h3>
+                    <p>This Month</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="mrrRevenue" style="color: #ffc107;">$-</h3>
+                    <p>Monthly Recurring Revenue</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="avgTransaction" style="color: #6c757d;">$-</h3>
+                    <p>Average Transaction</p>
                 </div>
             </div>
 
-            <div id="loadingMessage" class="loading">
-                <p>Loading users...</p>
+            <!-- Recent Transactions -->
+            <div class="users-section" style="margin-top: 30px;">
+                <h2>Recent Transactions</h2>
+                <div id="transactionsLoading" class="loading">Loading transactions...</div>
+                <div id="transactionsContainer" style="display: none;">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsBody"></tbody>
+                    </table>
+                </div>
+                <div id="noTransactions" class="no-data" style="display: none;">
+                    <p>No transactions found</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plugins Tab -->
+        <div id="pluginsTab" class="tab-content" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="totalDownloads">-</h3>
+                    <p>Total Downloads</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="recentDownloads">-</h3>
+                    <p>Last 7 Days</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="popularPlugin">-</h3>
+                    <p>Most Popular Plugin</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="uniquePlugins">-</h3>
+                    <p>Active Plugins</p>
+                </div>
             </div>
 
-            <div id="usersTableContainer" style="display: none;">
-                <table class="users-table">
-                    <thead>
-                        <tr>
-                            <th>Email</th>
-                            <th>Plan</th>
-                            <th>Registered</th>
-                            <th>Last Login</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usersTableBody">
-                        <!-- Users will be inserted here -->
-                    </tbody>
-                </table>
-            </div>
+            <!-- Plugin Downloads Chart -->
+            <div class="users-section" style="margin-top: 30px;">
+                <h2>Plugin Download Statistics</h2>
+                <div id="pluginLoading" class="loading">Loading plugin data...</div>
+                <div id="pluginStatsContainer" style="display: none;">
+                    <div id="pluginChartContainer" style="max-height: 400px; overflow-y: auto;">
+                        <!-- Plugin bars will be inserted here -->
+                    </div>
+                </div>
 
-            <div id="noDataMessage" class="no-data" style="display: none;">
-                <p>No users found</p>
+                <!-- Recent Downloads -->
+                <h3 style="margin-top: 30px;">Recent Downloads</h3>
+                <div id="recentDownloadsContainer"></div>
+            </div>
+        </div>
+
+        <!-- Users Tab -->
+        <div id="usersTab" class="tab-content" style="display: none;">
+            <!-- Users Management Section -->
+            <div class="users-section">
+                <div class="users-header">
+                    <h2 style="margin: 0;">User Management</h2>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search by email...">
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="free">Free</button>
+                        <button class="filter-btn" data-filter="trial">Trial</button>
+                        <button class="filter-btn" data-filter="pro">Pro</button>
+                        <button class="filter-btn" data-filter="lifetime">Lifetime</button>
+                        <button class="filter-btn" data-filter="business">Business</button>
+                    </div>
+                </div>
+
+                <div id="loadingMessage" class="loading">
+                    <p>Loading users...</p>
+                </div>
+
+                <div id="usersTableContainer" style="display: none;">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Plan</th>
+                                <th>Registered</th>
+                                <th>Last Login</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Users will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="noDataMessage" class="no-data" style="display: none;">
+                    <p>No users found</p>
+                </div>
             </div>
         </div>
     </div>
@@ -418,6 +521,41 @@
         let currentFilter = 'all';
         let selectedUserId = null;
 
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.style.background = 'rgba(102, 126, 234, 0.1)';
+                btn.style.color = '#667eea';
+                btn.style.border = '2px solid #667eea';
+            });
+            
+            // Show selected tab
+            const selectedTab = document.getElementById(tabName + 'Tab');
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+            }
+            
+            // Highlight active button
+            event.target.style.background = '#667eea';
+            event.target.style.color = 'white';
+            event.target.style.border = 'none';
+            
+            // Load data for the tab
+            if (tabName === 'revenue') {
+                loadRevenue();
+            } else if (tabName === 'plugins') {
+                loadPlugins();
+            } else if (tabName === 'users') {
+                if (allUsers.length === 0) {
+                    loadUsers();
+                }
+            }
+        }
+
         // Check if user is admin
         function checkAdminAccess() {
             const isAdmin = localStorage.getItem('isAdmin') === 'true';
@@ -456,6 +594,123 @@
                 }
             } catch (error) {
                 console.error('Error loading stats:', error);
+            }
+        }
+
+        // Load revenue data
+        async function loadRevenue() {
+            try {
+                document.getElementById('transactionsLoading').style.display = 'block';
+                const token = localStorage.getItem('authToken');
+                const response = await fetch('/api/admin?action=revenue', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('totalRevenue').textContent = '$' + data.totalRevenue;
+                    document.getElementById('monthRevenue').textContent = '$' + data.thisMonthRevenue;
+                    document.getElementById('mrrRevenue').textContent = '$' + data.estimatedMRR;
+                    document.getElementById('avgTransaction').textContent = '$' + data.averageTransaction;
+
+                    // Show transactions
+                    document.getElementById('transactionsLoading').style.display = 'none';
+                    if (data.recentTransactions && data.recentTransactions.length > 0) {
+                        document.getElementById('transactionsContainer').style.display = 'block';
+                        const tbody = document.getElementById('transactionsBody');
+                        tbody.innerHTML = data.recentTransactions.map(tx => `
+                            <tr>
+                                <td>${tx.email}</td>
+                                <td style="color: #28a745; font-weight: 600;">$${tx.amount}</td>
+                                <td>${tx.description}</td>
+                                <td>${tx.date}</td>
+                            </tr>
+                        `).join('');
+                    } else {
+                        document.getElementById('noTransactions').style.display = 'block';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading revenue:', error);
+                document.getElementById('transactionsLoading').innerHTML = '<p style="color: #dc3545;">Error loading revenue data</p>';
+            }
+        }
+
+        // Load plugin analytics
+        async function loadPlugins() {
+            try {
+                document.getElementById('pluginLoading').style.display = 'block';
+                const token = localStorage.getItem('authToken');
+                const response = await fetch('/api/admin?action=plugins', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('totalDownloads').textContent = data.totalDownloads || 0;
+                    document.getElementById('recentDownloads').textContent = data.recentDownloadCount || 0;
+
+                    // Find most popular plugin
+                    if (data.downloadsByPlugin && data.downloadsByPlugin.length > 0) {
+                        const topPlugin = data.downloadsByPlugin[0];
+                        document.getElementById('popularPlugin').textContent = topPlugin._id;
+                        document.getElementById('uniquePlugins').textContent = data.downloadsByPlugin.length;
+
+                        // Create plugin chart
+                        document.getElementById('pluginLoading').style.display = 'none';
+                        document.getElementById('pluginStatsContainer').style.display = 'block';
+                        const chartContainer = document.getElementById('pluginChartContainer');
+                        const maxDownloads = topPlugin.count;
+
+                        chartContainer.innerHTML = data.downloadsByPlugin.map(plugin => {
+                            const width = (plugin.count / maxDownloads) * 100;
+                            return `
+                                <div style="margin-bottom: 15px;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                        <span style="font-weight: 600;">${plugin._id}</span>
+                                        <span style="color: #667eea;">${plugin.count} downloads</span>
+                                    </div>
+                                    <div style="background: #e0e0e0; height: 20px; border-radius: 10px; overflow: hidden;">
+                                        <div style="width: ${width}%; height: 100%; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); transition: width 0.3s;"></div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+
+                        // Show recent downloads
+                        if (data.recentDownloads && data.recentDownloads.length > 0) {
+                            document.getElementById('recentDownloadsContainer').innerHTML = `
+                                <table class="users-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Plugin</th>
+                                            <th>User</th>
+                                            <th>Downloaded</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${data.recentDownloads.map(dl => `
+                                            <tr>
+                                                <td><strong>${dl.pluginId}</strong></td>
+                                                <td>${dl.userEmail}</td>
+                                                <td>${new Date(dl.downloadedAt).toLocaleString()}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            `;
+                        }
+                    } else {
+                        document.getElementById('pluginLoading').innerHTML = '<p>No plugin downloads yet</p>';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading plugins:', error);
+                document.getElementById('pluginLoading').innerHTML = '<p style="color: #dc3545;">Error loading plugin data</p>';
             }
         }
 
