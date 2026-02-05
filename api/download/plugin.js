@@ -232,15 +232,26 @@ async function verifyUser(authHeader) {
 
     let client;
     try {
+        // Verify JWT token
+        const jwt = require('jsonwebtoken');
+        const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+        
+        let decoded;
+        try {
+            decoded = jwt.verify(token, JWT_SECRET);
+        } catch (err) {
+            throw new Error('Invalid token');
+        }
+
+        // Get user from database
         client = await MongoClient.connect(MONGODB_URI);
         const db = client.db('jarvis-omega');
         const users = db.collection('users');
 
-        // Find user by token (simplified - in production use JWT verification)
-        const user = await users.findOne({ authToken: token });
+        const user = await users.findOne({ email: decoded.email });
         
         if (!user) {
-            throw new Error('Invalid token');
+            throw new Error('User not found');
         }
 
         return user;
