@@ -9,210 +9,210 @@ const PLUGIN_CATALOG = {
     'spotify-control': {
         name: 'Spotify Controller',
         version: '1.2.0',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/spotify-control.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/spotify_controller.zip',
         size: '2.1 MB',
         checksum: 'sha256:abc123...'
     },
     'email-assistant': {
         name: 'Email Assistant',
         version: '2.0.1',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/email-assistant.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/email_assistant.zip',
         size: '3.4 MB',
         checksum: 'sha256:def456...'
     },
     'calendar-sync': {
         name: 'Calendar Integration',
         version: '1.5.0',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/calendar-sync.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/calendar_integration.zip',
         size: '1.8 MB',
         checksum: 'sha256:ghi789...'
     },
     'smart-home': {
         name: 'Smart Home Hub',
         version: '1.3.2',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/smart-home.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/smart_home_hub.zip',
         size: '4.2 MB',
         checksum: 'sha256:jkl012...'
     },
     'task-manager': {
         name: 'Task Manager Pro',
         version: '1.1.0',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/task-manager.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/task_manager_pro.zip',
         size: '1.5 MB',
         checksum: 'sha256:mno345...'
     },
     'weather-advanced': {
         name: 'Advanced Weather',
         version: '1.0.5',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/weather-advanced.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/advanced_weather.zip',
         size: '2.0 MB',
         checksum: 'sha256:pqr678...'
     },
     'code-assistant': {
         name: 'Code Assistant',
         version: '1.4.0',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/code-assistant.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/code_assistant.zip',
         size: '5.3 MB',
         checksum: 'sha256:stu901...'
     },
     'translation': {
         name: 'Language Translator',
         version: '1.2.3',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/translation.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/language_translator.zip',
         size: '3.1 MB',
         checksum: 'sha256:vwx234...'
     },
     'news-reader': {
         name: 'Smart News Reader',
         version: '1.0.8',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/news-reader.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/smart_news_reader.zip',
         size: '1.9 MB',
         checksum: 'sha256:yz0567...'
     },
     'workout-coach': {
         name: 'Workout Coach',
         version: '1.1.2',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/workout-coach.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/workout_coach.zip',
         size: '2.7 MB',
         checksum: 'sha256:abc890...'
     },
     'recipe-finder': {
         name: 'Recipe Finder',
         version: '1.0.3',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/recipe-finder.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/recipe_finder.zip',
         size: '1.6 MB',
         checksum: 'sha256:def123...'
     },
     'github-integration': {
         name: 'GitHub Manager',
         version: '1.3.0',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/github-integration.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/github_manager.zip',
         size: '2.4 MB',
         checksum: 'sha256:ghi456...'
     },
     'pomodoro-timer': {
         name: 'Pomodoro Timer',
         version: '1.0.0',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/pomodoro-timer.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/pomodoro_timer.zip',
         size: '800 KB',
         checksum: 'sha256:jkl789...'
     },
     'crypto-tracker': {
         name: 'Crypto Price Tracker',
         version: '1.1.5',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/crypto-tracker.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/crypto_tracker.zip',
         size: '1.3 MB',
         checksum: 'sha256:mno012...'
     },
     'meditation-guide': {
         name: 'Meditation Guide',
         version: '1.0.7',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/meditation-guide.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/meditation_guide.zip',
         size: '6.2 MB',
         checksum: 'sha256:pqr345...'
     },
     'window-manager': {
         name: 'Window Manager',
         version: '1.2.1',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/window-manager.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/window_manager.zip',
         size: '1.1 MB',
         checksum: 'sha256:stu678...'
     },
     'youtube-controller': {
         name: 'YouTube Voice Control',
         version: '1.4.2',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/youtube-controller.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/youtube_controller.zip',
         size: '2.8 MB',
         checksum: 'sha256:vwx901...'
     },
     'file-organizer': {
         name: 'Smart File Organizer',
         version: '2.1.0',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/file-organizer.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/file_organizer.zip',
         size: '3.2 MB',
         checksum: 'sha256:yz1234...'
     },
     'browser-automation': {
         name: 'Browser Automation',
         version: '1.3.1',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/browser-automation.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/browser_automation.zip',
         size: '4.1 MB',
         checksum: 'sha256:abc567...'
     },
     'screenshot-tool': {
         name: 'Screenshot Master',
         version: '1.0.9',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/screenshot-tool.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/screenshot_master.zip',
         size: '2.3 MB',
         checksum: 'sha256:def890...'
     },
     'notes-dictation': {
         name: 'Voice Notes Pro',
         version: '2.3.0',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/notes-dictation.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/voice_notes_pro.zip',
         size: '3.7 MB',
         checksum: 'sha256:ghi012...'
     },
     'system-monitor': {
         name: 'System Monitor Pro',
         version: '1.5.3',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/system-monitor.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/system_monitor.zip',
         size: '2.9 MB',
         checksum: 'sha256:jkl345...'
     },
     'meeting-assistant': {
         name: 'Meeting Assistant',
         version: '1.6.0',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/meeting-assistant.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/meeting_assistant.zip',
         size: '4.5 MB',
         checksum: 'sha256:mno678...'
     },
     'password-manager': {
         name: 'Password Vault',
         version: '1.1.4',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/password-manager.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/example_weather.zip',
         size: '2.6 MB',
         checksum: 'sha256:pqr901...'
     },
     'clipboard-manager': {
         name: 'Clipboard History',
         version: '1.0.6',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/clipboard-manager.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/clipboard_history.zip',
         size: '1.4 MB',
         checksum: 'sha256:stu234...'
     },
     'focus-mode': {
         name: 'Focus Mode',
         version: '1.2.2',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/focus-mode.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/focus_mode.zip',
         size: '1.7 MB',
         checksum: 'sha256:vwx567...'
     },
     'voice-commands-custom': {
         name: 'Custom Command Builder',
         version: '2.0.0',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/voice-commands-custom.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/custom_command_builder.zip',
         size: '3.9 MB',
         checksum: 'sha256:yz8901...'
     },
     'social-media-poster': {
         name: 'Social Media Manager',
         version: '1.3.5',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/social-media-poster.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/social_media_manager.zip',
         size: '2.5 MB',
         checksum: 'sha256:abc234...'
     },
     'expense-tracker': {
         name: 'Expense Tracker',
         version: '1.1.8',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/expense-tracker.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/expense_tracker.zip',
         size: '1.9 MB',
         checksum: 'sha256:def567...'
     },
     'alarm-reminder': {
         name: 'Smart Alarms & Reminders',
         version: '1.4.3',
-        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/alarm-reminder.zip',
+        fileUrl: 'https://github.com/astroverse4223-lab/jarvis-plugins/releases/download/v1.0/smart_alarms.zip',
         size: '2.2 MB',
         checksum: 'sha256:ghi890...'
     }
