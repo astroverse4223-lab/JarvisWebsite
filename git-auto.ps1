@@ -71,7 +71,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "Pushing to GitHub..." -ForegroundColor Yellow
-git push
+git push 2>&1 | Out-String -OutVariable pushOutput | Write-Host
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host ""
@@ -79,6 +79,31 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "  SUCCESS! Changes pushed to GitHub" -ForegroundColor Green
     Write-Host "================================================" -ForegroundColor Green
     Write-Host ""
+} elseif ($pushOutput -match "has no upstream branch") {
+    Write-Host ""
+    Write-Host "Setting upstream branch..." -ForegroundColor Yellow
+    git push --set-upstream origin main
+    
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host ""
+        Write-Host "================================================" -ForegroundColor Green
+        Write-Host "  SUCCESS! Changes pushed to GitHub" -ForegroundColor Green
+        Write-Host "================================================" -ForegroundColor Green
+        Write-Host ""
+    } else {
+        Write-Host ""
+        Write-Host "================================================" -ForegroundColor Red
+        Write-Host "  Push failed" -ForegroundColor Red
+        Write-Host "================================================" -ForegroundColor Red
+        Write-Host ""
+        Write-Host "Possible issues:" -ForegroundColor Yellow
+        Write-Host "1. No remote configured (run setup-github.ps1)" -ForegroundColor White
+        Write-Host "2. Authentication required" -ForegroundColor White
+        Write-Host "3. No internet connection" -ForegroundColor White
+        Write-Host ""
+        Write-Host "Your changes are committed locally." -ForegroundColor Cyan
+        Write-Host "You can push later with: git push -u origin main" -ForegroundColor Cyan
+    }
 } else {
     Write-Host ""
     Write-Host "================================================" -ForegroundColor Red
