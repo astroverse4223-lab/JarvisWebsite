@@ -558,10 +558,11 @@
                     <table class="users-table">
                         <thead>
                             <tr>
-                                <th>Customer ID</th>
+                                <th>Email</th>
+                                <th>Plan</th>
                                 <th>Status</th>
                                 <th>Amount</th>
-                                <th>Renews On</th>
+                                <th>Renewal/Updated</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -569,7 +570,7 @@
                     </table>
                 </div>
                 <div id="noSubs" class="no-data" style="display: none;">
-                    <p>No active subscriptions found</p>
+                    <p>No paid users found</p>
                 </div>
             </div>
         </div>
@@ -1258,19 +1259,28 @@
                     if (data.subscriptions && data.subscriptions.length > 0) {
                         document.getElementById('subsContainer').style.display = 'block';
                         const tbody = document.getElementById('subsTableBody');
-                        tbody.innerHTML = data.subscriptions.map(sub => `
-                            <tr>
-                                <td><code>${sub.customer}</code></td>
-                                <td><span style="color: #28a745; font-weight: 600;">${sub.status}</span></td>
-                                <td style="font-weight: 600;">$${sub.amount}</td>
-                                <td>${sub.currentPeriodEnd}</td>
-                                <td>
-                                    <button class="action-btn btn-delete" onclick="confirmCancelSubscription('${sub.id}')">
-                                        Cancel
-                                    </button>
-                                </td>
-                            </tr>
-                        `).join('');
+                        tbody.innerHTML = data.subscriptions.map(sub => {
+                            const statusBadge = sub.isManual 
+                                ? '<span style="background: #9b59b6; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px;">Manual</span>'
+                                : `<span style="color: ${sub.stripeStatus === 'active' ? '#28a745' : '#dc3545'}; font-weight: 600;">${sub.stripeStatus}</span>`;
+                            
+                            const amount = typeof sub.amount === 'number' ? `$${sub.amount}` : sub.amount;
+                            
+                            const cancelBtn = sub.subscription 
+                                ? `<button class="action-btn btn-delete" onclick="confirmCancelSubscription('${sub.subscription}')">Cancel</button>`
+                                : '<span style="color: #999;">No Stripe Sub</span>';
+                            
+                            return `
+                                <tr>
+                                    <td>${sub.email}</td>
+                                    <td style="text-transform: capitalize;">${sub.plan}</td>
+                                    <td>${statusBadge}</td>
+                                    <td style="font-weight: 600;">${amount}</td>
+                                    <td>${sub.currentPeriodEnd}</td>
+                                    <td>${cancelBtn}</td>
+                                </tr>
+                            `;
+                        }).join('');
                     } else {
                         document.getElementById('noSubs').style.display = 'block';
                     }

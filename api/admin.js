@@ -375,17 +375,10 @@ module.exports = async (req, res) => {
             const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
             
             try {
-                // Get active subscriptions from Stripe
-                const subscriptions = await stripe.subscriptions.list({
-                    limit: 50,
-                    status: 'active'
-                });
-
-                // Get subscription stats
-                const activeCount = await users.countDocuments({ 
-                    subscription: { $exists: true },
+                // Get all Pro and Business users from database
+                const paidUsers = await users.find({
                     plan: { $in: ['pro', 'business'] }
-                });
+                }).toArray();
 
                 const trialCount = await users.countDocuments({ plan: 'trial' });
                 const lifetimeCount = await users.countDocuments({ plan: 'lifetime' });
@@ -408,30 +401,66 @@ module.exports = async (req, res) => {
                     ? ((recentConversions / recentTrials) * 100).toFixed(1)
                     : '0.0';
 
-                // Get upcoming renewals (next 7 days)
-                const nextWeek = Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60);
-                const upcomingRenewals = subscriptions.data.filter(sub => 
-                    sub.current_period_end <= nextWeek
-                ).length;
+                // Get Stripe subscriptions for comparison
+                let stripeSubscriptions = [];
+                let upcomingRenewals = 0;
+                
+                try {
+                    const subs = await stripe.subscriptions.list({
+                        limit: 100,
+                        status: 'all'
+                    });
+                    stripeSubscriptions = subs.data;
+
+                    // Count upcoming renewals (next 7 days)
+                    const nextWeek = Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60);
+                    upcomingRenewals = stripeSubscriptions.filter(sub => 
+                        sub.status === 'active' && sub.current_period_end <= nextWeek
+                    ).length;
+                } catch (stripeError) {
+                    console.error('Stripe API error:', stripeError);
+                }
+
+                // Build user subscription list
+                const userSubscriptions = paidUsers.map(user => {
+                    // Find matching Stripe subscription
+                    const stripeSub = user.subscription 
+                        ? stripeSubscriptions.find(s => s.id === user.subscription)
+                        : null;
+
+                    return {
+                        userId: user._id,
+                        email: user.email,
+                        plan: user.plan,
+                        subscription: user.subscription || null,
+                        stripeStatus: stripeSub ? stripeSub.status : 'manual',
+                        amount: stripeSub ? (stripeSub.items.data[0]?.price?.unit_amount || 0) / 100 : 'N/A',
+                        currentPeriodEnd: stripeSub 
+                            ? new Date(stripeSub.current_period_end * 1000).toLocaleDateString()
+                            : 'Manual upgrade',
+                        planUpdatedAt: user.planUpdatedAt 
+                            ? new Date(user.planUpdatedAt).toLocaleDateString()
+                            : 'N/A',
+                        isManual: !user.subscription
+                    };
+                });
 
                 return res.status(200).json({
-                    activeSubscriptions: activeCount,
+                    activeSubscriptions: paidUsers.length,
+                    stripeSubscriptions: stripeSubscriptions.filter(s => s.status === 'active').length,
+                    manualUpgrades: paidUsers.filter(u => !u.subscription).length,
                     trialUsers: trialCount,
                     lifetimeUsers: lifetimeCount,
                     conversionRate,
                     upcomingRenewals,
-                    subscriptions: subscriptions.data.slice(0, 20).map(sub => ({
-                        id: sub.id,
-                        customer: sub.customer,
-                        status: sub.status,
-                        currentPeriodEnd: new Date(sub.current_period_end * 1000).toLocaleDateString(),
-                        amount: (sub.items.data[0]?.price?.unit_amount || 0) / 100
-                    }))
+                    subscriptions: userSubscriptions
                 });
             } catch (error) {
                 console.error('Subscription error:', error);
                 return res.status(200).json({
                     activeSubscriptions: 0,
+                    stripeSubscriptions: 0,
+                    manualUpgrades: 0,
                     trialUsers: 0,
                     lifetimeUsers: 0,
                     conversionRate: '0.0',
