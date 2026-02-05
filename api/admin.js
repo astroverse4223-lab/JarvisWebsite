@@ -597,6 +597,89 @@ module.exports = async (req, res) => {
             return res.status(200).json(healthData);
         }
 
+        // GET /api/admin?action=chats - Get all live chat conversations
+        if (req.method === 'GET' && action === 'chats') {
+            const db = client.db('jarvis-omega');
+            const chats = db.collection('live_chats');
+
+            try {
+                // Get all chats sorted by last message
+                const allChats = await chats.find({}).sort({ lastMessage: -1 }).toArray();
+
+                // Calculate stats
+                const activeChats = allChats.filter(c => c.status === 'active').length;
+                let totalUnread = 0;
+
+                const chatList = allChats.map(chat => {
+                    const userMessages = chat.messages.filter(m => m.from === 'user' && !m.read);
+                    const unreadCount = userMessages.length;
+                    totalUnread += unreadCount;
+
+                    const lastMessage = chat.messages[chat.messages.length - 1];
+
+                    return {
+                        sessionId: chat.sessionId,
+                        email: chat.email,
+                        status: chat.status,
+                        lastMessage: chat.lastMessage,
+                        lastMessageText: lastMessage ? lastMessage.message : '',
+                        unreadCount: unreadCount,
+                        messageCount: chat.messages.length
+                    };
+                });
+
+                return res.status(200).json({
+                    activeChats,
+                    totalChats: allChats.length,
+                    unreadMessages: totalUnread,
+                    chats: chatList
+                });
+            } catch (error) {
+                console.error('Error fetching chats:', error);
+                return res.status(200).json({
+                    activeChats: 0,
+                    totalChats: 0,
+                    unreadMessages: 0,
+                    chats: []
+                });
+            }
+        }
+
+        // POST /api/admin?action=sendChatMessage - Send message as admin
+        if (req.method === 'POST' && action === 'sendChatMessage') {
+            const { sessionId, message } = req.body;
+
+            if (!sessionId || !message) {
+                return res.status(400).json({ error: 'Session ID and message required' });
+            }
+
+            const db = client.db('jarvis-omega');
+            const chats = db.collection('live_chats');
+
+            try {
+                const adminMessage = {
+                    from: 'support',
+                    message: message,
+                    timestamp: new Date().toISOString(),
+                    read: false,
+                    isAutoReply: false
+                };
+
+                await chats.updateOne(
+                    { sessionId },
+                    { 
+                        $push: { messages: adminMessage },
+                        $set: { lastMessage: new Date() }
+                    }
+                );
+
+                return res.status(200).json({ success: true });
+            } catch (error) {
+                console.error('Error sending chat message:', error);
+                return res.status(500).json({ error: 'Failed to send message' });
+            }
+        }
+
         return res.status(400).json({ error: 'Invalid action parameter' });
 
     } catch (error) {

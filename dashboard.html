@@ -429,5 +429,16 @@
         updateNavbarProfile();
         loadDashboard();
     </script>
+
+    <!-- Live Chat Widget -->
+    <script>
+        fetch('/chat-widget.html')
+            .then(response => response.text())
+            .then(html => {
+                const div = document.createElement('div');
+                div.innerHTML = html;
+                document.body.appendChild(div);
+            });
+    </script>
 </body>
 </html>
